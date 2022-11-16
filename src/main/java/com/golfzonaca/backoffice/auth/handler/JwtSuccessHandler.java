@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.jwt.Jwt;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import java.util.Iterator;
 
 @Slf4j
 @RequiredArgsConstructor
+@Component
 public class JwtSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtRepository jwtRepository;
     private final CompanyRepository companyRepository;

@@ -2,13 +2,14 @@ package com.golfzonaca.backoffice.auth.token;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.golfzonaca.backoffice.auth.handler.JwtSuccessHandler;
-import com.sun.jdi.LongValue;
-import org.springframework.security.jwt.Jwt;
 import org.springframework.security.jwt.JwtHelper;
+import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
+@Repository
 public class JwtRepository {
     private static final Map<String, String> store = new HashMap<>();
     public Map<String, String> save (String userId, String token) {
