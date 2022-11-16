@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+
+        .quantity-info {
+            width: 100%;
+            display: flex;
+        }
+
+        .type-quantity {
+            display: flex;
+            width: 33.33%;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .type-quantity input {
+            width: 40%;
+            text-align: center;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2 th:text="#{page.addPlace}">사무공간 등록</h2>
+    </div>
+
+    <form action="place.html" th:action method="post">
+        <div>
+            <label for="placeName" th:text="#{label.place.placeName}">사무공간명</label>
+            <input type="text" id="placeName" th:field="${place.placeName}" name="placeName" class="form-control"
+                   placeholder="이름을 입력하세요" minlength="1" maxlength="30" th:minlength="1" th:maxlength="30" required>
+        </div>
+        <!-- multi checkbox -->
+        <div>
+            <div>영업일</div>
+            <div th:each="type : ${DaysType}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="${place.placeOpenDays}" th:value="${type.name()}"
+                       class="form-check-input">
+                <label th:for="${#ids.prev('placeOpenDays')}" th:text="${type.description}" class="form-check-label">
+                    월요일
+                </label>
+            </div>
+        </div>
+        <div>
+            <label for="placeDescription" th:text="#{label.place.placeDescription}">사무공간 설명</label>
+            <input type="text" id="placeDescription" th:field="${place.placeDescription}" name="placeDescription"
+                   class="form-control" placeholder="공간 설명을 입력하세요">
+        </div>
+        <div>
+            <label for="postalCode">우편 번호</label>
+            <input type="text" id="postalCode" th:field="${location.postalCode}" name="postalCode" class="form-control" pattern="[0-9]{5}" minlength="5" maxlength="5" th:minlength="5" th:maxlength="5" required>
+            <label for="address">주소</label>
+            <input type="text" id="address" th:field="${location.address}" name="address" class="form-control" minlength="1" maxlength="100" th:minlength="1" th:maxlength="100" required>
+        </div>
+        <div>
+            <label for="placeStart">오픈 시간</label>
+            <input type="time" id="placeStart" name="placeStart" class="form-control">
+            <label for="placeEnd">종료 시간</label>
+            <input type="time" id="placeEnd" name="placeEnd" class="form-control">
+        </div>
+
+        <!-- multi checkbox -->
+        <div>
+            <div>공간 부가 정보</div>
+            <div th:each="info : ${AddInfoType}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="${place.placeAddInfo}" th:value="${info.name()}"
+                       class="form-check-input">
+                <label th:for="${#ids.prev('placeAddInfo')}"
+                       th:text="${info.description}" class="form-check-label">Wifi</label>
+            </div>
+        </div>
+
+        <div>공간 보유 갯수</div>
+        <div class="quantity-info">
+            <div class="type-quantity">
+                <label for="desk">데스크</label>
+                <input type="number" id="desk" name="desk" class="form-control" min="0" value=0>
+            </div>
+            <div class="type-quantity">
+                <label for="meetingRoom4">4인 미팅룸</label>
+                <input type="number" id="meetingRoom4" name="meetingRoom4" class="form-control" min="0" value=0>
+            </div>
+            <div class="type-quantity">
+                <label for="meetingRoom6">6인 미팅룸</label>
+                <input type="number" id="meetingRoom6" name="meetingRoom6" class="form-control" min="0" value=0>
+            </div>
+        </div>
+        <div class="quantity-info">
+            <div class="type-quantity">
+                <label for="meetingRoom10">10인 미팅룸</label>
+                <input type="number" id="meetingRoom10" name="meetingRoom10" class="form-control" min="0" value=0>
+            </div>
+            <div class="type-quantity">
+                <label for="meetingRoom20">20인 미팅룸</label>
+                <input type="number" id="meetingRoom20" name="meetingRoom20" class="form-control" min="0" value=0>
+            </div>
+            <div class="type-quantity">
+                <label for="office20">20평 오피스</label>
+                <input type="number" id="office20" name="office20" class="form-control" min="0" value=0>
+            </div>
+        </div>
+        <div class="quantity-info">
+            <div class="type-quantity">
+                <label for="office40">40평 오피스</label>
+                <input type="number" id="office40" name="office40" class="form-control" min="0" value=0>
+            </div>
+            <div class="type-quantity">
+                <label for="office70">70평 오피스</label>
+                <input type="number" id="office70" name="office70" class="form-control" min="0" value=0>
+            </div>
+            <div class="type-quantity">
+                <label for="office100">100평 오피스</label>
+                <input type="number" id="office100" name="office100" class="form-control" min="0" value=0>
+            </div>
+        </div>
+
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">공간 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='places.html'"
+                        th:onclick="|location.href='@{/places}'|"
+                        type="button">취소
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>

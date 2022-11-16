@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+
+        .quantity-info {
+            width: 100%;
+            display: flex;
+        }
+
+        .type-quantity {
+            display: flex;
+            width: 33.33%;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .type-quantity input {
+            width: 40%;
+            text-align: center;
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>공간 수정 폼</h2>
+    </div>
+
+    <form action="place.html" th:action method="post">
+        <div>
+            <label for="placeId">등록번호</label>
+            <input type="text" id="placeId" name="placeId" class="form-control" value="1" th:value="${place.id}" readonly disabled="true">
+        </div>
+        <div>
+            <label for="placeName">공간명</label>
+            <input type="text" id="placeName" name="placeName" class="form-control" value="공간A"
+                   th:value="${place.placeName}">
+        </div>
+        <div>
+            <label for="placeDescription">공간설명</label>
+            <input type="text" id="placeDescription" name="placeDescription" class="form-control" value="판교에 위치한 공간A입니다."
+                   th:value="${place.placeDescription}">
+        </div>
+        <div>
+            <label for="postalCode">우편번호</label>
+            <input type="text" id="postalCode" name="postalCode" class="form-control" value="" th:value="${location.postalCode}">
+        </div>
+        <div>
+            <label for="address">주소</label>
+            <input type="text" id="address" name="address" class="form-control" value="" th:value="${location.address}">
+        </div>
+        <!-- multi checkbox -->
+        <div>
+            <div>영업일</div>
+            <div th:each="type : ${DaysType}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="${place.placeOpenDays}" th:value="${type.name()}" class="form-check-input">
+                <label th:for="${#ids.prev('placeOpenDays')}" th:text="${type.description}" class="form-check-label">월요일</label>
+            </div>
+        </div>
+        <div>
+            <label for="placeStart">시작 시간</label>
+            <input type="time" id="placeStart" name="placeStart" class="form-control" value="10:00" th:value="${place.placeStart}">
+        </div>
+        <div>
+            <label for="placeEnd">종료 시간</label>
+            <input type="time" id="placeEnd" name=placeEnd class="form-control" value="22:00" th:value="${place.placeEnd}">
+        </div>
+        <!-- multi checkbox -->
+        <div>
+            <div>부가 정보</div>
+            <div th:each="type : ${AddInfoType}" class="form-check form-check-inline">
+                <input type="checkbox" th:field="${place.placeAddInfo}" th:value="${type.name()}" class="form-check-input">
+                <label th:for="${#ids.prev('placeAddInfo')}" th:text="${type.description}" class="form-check-label">와이파이</label>
+            </div>
+        </div>
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='place.html'"
+                        th:onclick="|location.href='@{/places/{placeId}(placeId=${place.id})}'|"
+                        type="button">취소
+                </button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='places.html'"
+                        th:onclick="|location.href='@{/places/{placeId}/delete(placeId=${place.id})}'|"
+                        type="button">삭제
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>
