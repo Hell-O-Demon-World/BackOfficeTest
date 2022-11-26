@@ -62,9 +62,11 @@
         </div>
         <div>
             <label for="postalCode">우편 번호</label>
-            <input type="text" id="postalCode" th:field="${location.postalCode}" name="postalCode" class="form-control" pattern="[0-9]{5}" minlength="5" maxlength="5" th:minlength="5" th:maxlength="5" required>
+            <input type="text" id="postalCode" th:field="${address.postalCode}" name="postalCode" class="form-control"
+                   pattern="[0-9]{5}" minlength="5" maxlength="5" th:minlength="5" th:maxlength="5" required>
             <label for="address">주소</label>
-            <input type="text" id="address" th:field="${location.address}" name="address" class="form-control" minlength="1" maxlength="100" th:minlength="1" th:maxlength="100" required>
+            <input type="text" id="address" th:field="${address.address}" name="address" class="form-control"
+                   minlength="1" maxlength="100" th:minlength="1" th:maxlength="100" required>
         </div>
         <div>
             <label for="placeStart">오픈 시간</label>
@@ -84,50 +86,15 @@
             </div>
         </div>
 
-        <div>공간 보유 갯수</div>
-        <div class="quantity-info">
-            <div class="type-quantity">
-                <label for="desk">데스크</label>
-                <input type="number" id="desk" name="desk" class="form-control" min="0" value=0>
-            </div>
-            <div class="type-quantity">
-                <label for="meetingRoom4">4인 미팅룸</label>
-                <input type="number" id="meetingRoom4" name="meetingRoom4" class="form-control" min="0" value=0>
-            </div>
-            <div class="type-quantity">
-                <label for="meetingRoom6">6인 미팅룸</label>
-                <input type="number" id="meetingRoom6" name="meetingRoom6" class="form-control" min="0" value=0>
+        <div>
+            <div>사무공간 타입별 보유 개수</div>
+            <div th:each="room : ${RoomTypes}" class="quantity-info">
+                <label th:for="${#ids.next('roomType')}"
+                       th:text="${room.description}" class="type-quantity">desk</label>
+                <input type="number" th:field="${place.roomQuantity}"
+                       class="type-quantity input" min="0" value=0>
             </div>
         </div>
-        <div class="quantity-info">
-            <div class="type-quantity">
-                <label for="meetingRoom10">10인 미팅룸</label>
-                <input type="number" id="meetingRoom10" name="meetingRoom10" class="form-control" min="0" value=0>
-            </div>
-            <div class="type-quantity">
-                <label for="meetingRoom20">20인 미팅룸</label>
-                <input type="number" id="meetingRoom20" name="meetingRoom20" class="form-control" min="0" value=0>
-            </div>
-            <div class="type-quantity">
-                <label for="office20">20평 오피스</label>
-                <input type="number" id="office20" name="office20" class="form-control" min="0" value=0>
-            </div>
-        </div>
-        <div class="quantity-info">
-            <div class="type-quantity">
-                <label for="office40">40평 오피스</label>
-                <input type="number" id="office40" name="office40" class="form-control" min="0" value=0>
-            </div>
-            <div class="type-quantity">
-                <label for="office70">70평 오피스</label>
-                <input type="number" id="office70" name="office70" class="form-control" min="0" value=0>
-            </div>
-            <div class="type-quantity">
-                <label for="office100">100평 오피스</label>
-                <input type="number" id="office100" name="office100" class="form-control" min="0" value=0>
-            </div>
-        </div>
-
 
         <hr class="my-4">
 

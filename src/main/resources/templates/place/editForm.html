@@ -54,11 +54,11 @@
         </div>
         <div>
             <label for="postalCode">우편번호</label>
-            <input type="text" id="postalCode" name="postalCode" class="form-control" value="" th:value="${location.postalCode}">
+            <input type="text" id="postalCode" name="postalCode" class="form-control" value="" th:value="${place.getPostalCode()}">
         </div>
         <div>
             <label for="address">주소</label>
-            <input type="text" id="address" name="address" class="form-control" value="" th:value="${location.address}">
+            <input type="text" id="address" name="address" class="form-control" value="" th:value="${place.getAddress()}">
         </div>
         <!-- multi checkbox -->
         <div>

@@ -1,30 +1,56 @@
 package com.golfzonaca.backoffice.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Entity
+@Table(uniqueConstraints = {@UniqueConstraint(name = "Company", columnNames = {"COMPANY_LOGINID", "COMPANY_NAME", "COMPANY_TEL", "COMPANY_REGNUM"})})
 @NoArgsConstructor
-@AllArgsConstructor
 public class Company {
 
-    private Long id; //업체식별번호
-    private String companyLoginId; // 업체의 백오피스 아이디
-    private String companyPw;
-    private String companyName;
-    private String companyTel;
-    private String companyRegNum;
-    private String companyRepName;
-    private Long addressId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Company(String companyLoginId, String companyPw, String companyName, String companyTel, String companyRegNum, String companyRepName, Long addressId) {
-        this.companyLoginId = companyLoginId;
-        this.companyPw = companyPw;
-        this.companyName = companyName;
-        this.companyTel = companyTel;
-        this.companyRegNum = companyRegNum;
-        this.companyRepName = companyRepName;
-        this.addressId = addressId;
+    @Column(name = "COMPANY_LOGINID", nullable = false, length = 15)
+    private String loginId;
+
+    @Column(name = "COMPANY_PW", nullable = false, length = 15)
+    private String Pw;
+
+    @Column(name = "COMPANY_NAME", nullable = false, length = 30)
+    private String Name;
+
+    @Column(name = "COMPANY_TEL", nullable = false, length = 22)
+    private String tel;
+
+    @Column(name = "COMPANY_REGNUM", nullable = false, length = 12)
+    private String regNum;
+
+    @Column(name = "COMPANY_REPNAME", nullable = false, length = 20)
+    private String repName;
+
+    @OneToOne
+    @JoinColumn(name = "ADDRESS_ID")
+    private Address address;
+
+    @OneToMany(mappedBy = "company")
+    private List<Place> placeList = new ArrayList<>();
+
+    @Builder
+    public Company(String loginId, String pw, String name, String tel, String regNum, String repName, Address address) {
+        this.loginId = loginId;
+        Pw = pw;
+        Name = name;
+        this.tel = tel;
+        this.regNum = regNum;
+        this.repName = repName;
+        this.address = address;
     }
 }

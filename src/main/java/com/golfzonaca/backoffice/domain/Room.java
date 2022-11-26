@@ -1,26 +1,40 @@
 package com.golfzonaca.backoffice.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Data
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Room {
 
-    private long id;
-    private long roomKindId;
-    private long placeId;
-    private long companyId;
-    private int totalNum;
-    private Boolean roomState;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Room(long roomKindId, long placeId, long companyId, int totalNum, Boolean roomState) {
-        this.roomKindId = roomKindId;
-        this.placeId = placeId;
-        this.companyId = companyId;
-        this.totalNum = totalNum;
-        this.roomState = roomState;
+    @OneToOne
+    @JoinColumn(name = "ROOM_KIND_ID")
+    private RoomKind roomKind;
+
+    @ManyToOne
+    @JoinColumn(name = "PLACE_ID")
+    private Place place;
+
+    //양방향 매핑
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservationList = new ArrayList<>();
+
+    @Builder
+    public Room(RoomKind roomKind, Place place) {
+        this.roomKind = roomKind;
+        this.place = place;
     }
 }

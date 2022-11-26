@@ -8,6 +8,7 @@
         .container {
             max-width: 560px;
         }
+
         .field-error {
             border-color: #dc3545;
             color: #dc3545;
@@ -22,7 +23,7 @@
         <h2>백오피스 로그인</h2>
     </div>
 
-    <form action="places.html" th:action="@{/signin}" th:object="${loginForm}" method="post">
+    <form action="places.html" th:action="@{/signin}" th:object="${signInDto}" method="post">
 
         <div th:if="${#fields.hasGlobalErrors()}">
             <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
@@ -32,13 +33,13 @@
             <label for="loginId">로그인 ID</label>
             <input type="text" id="loginId" th:field="*{id}" class="form-control"
                    th:errorclass="field-error">
-            <div class="field-error" th:errors="*{id}" />
+            <div class="field-error" th:errors="*{id}"/>
         </div>
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" th:name="pw" th:field="*{pw}" class="form-control"
                    th:errorclass="field-error">
-            <div class="field-error" th:errors="*{pw}" />
+            <div class="field-error" th:errors="*{pw}"/>
         </div>
 
         <hr class="my-4">
