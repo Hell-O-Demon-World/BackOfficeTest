@@ -30,6 +30,8 @@ public class QRoom extends EntityPathBase<Room> {
 
     public final QRoomKind roomKind;
 
+    public final QRoomStatus roomStatus;
+
     public QRoom(String variable) {
         this(Room.class, forVariable(variable), INITS);
     }
@@ -50,6 +52,7 @@ public class QRoom extends EntityPathBase<Room> {
         super(type, metadata, inits);
         this.place = inits.isInitialized("place") ? new QPlace(forProperty("place"), inits.get("place")) : null;
         this.roomKind = inits.isInitialized("roomKind") ? new QRoomKind(forProperty("roomKind")) : null;
+        this.roomStatus = inits.isInitialized("roomStatus") ? new QRoomStatus(forProperty("roomStatus"), inits.get("roomStatus")) : null;
     }
 
 }

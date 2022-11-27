@@ -32,6 +32,9 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservationList = new ArrayList<>();
 
+    @OneToOne(mappedBy = "room")
+    private RoomStatus roomStatus;
+
     @Builder
     public Room(RoomKind roomKind, Place place) {
         this.roomKind = roomKind;

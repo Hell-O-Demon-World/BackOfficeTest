@@ -4,7 +4,7 @@ import com.golfzonaca.backoffice.domain.Place;
 import com.golfzonaca.backoffice.domain.Room;
 import com.golfzonaca.backoffice.domain.type.RoomType;
 import com.golfzonaca.backoffice.repository.place.PlaceRepository;
-import com.golfzonaca.backoffice.repository.place.dto.PlaceUpdateDto;
+import com.golfzonaca.backoffice.web.controller.place.dto.PlaceEditDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,14 +27,14 @@ public class PlaceService {
         return repository.findById(placeId);
     }
 
-    public Place update(Place place, PlaceUpdateDto data) {
+    public Place update(Place place, PlaceEditDto data) {
         return repository.update(place, data);
     }
 
     public void delete(Place place) {
         repository.delete(place);
     }
-    
+
     public Map<String, Integer> calculateRoomQuantity(Place place) {
         Map<String, Integer> roomQuantity = new LinkedHashMap<>();
         RoomType[] roomTypes = RoomType.values();

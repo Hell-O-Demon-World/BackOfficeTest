@@ -20,6 +20,24 @@ public class RoomService {
     private final RoomKindRepository roomKindRepository;
 
     public void save(Place place, List<Integer> roomQuantity) {
+        saveRooms(place, roomQuantity);
+    }
+
+    public Room findById(Long roomId) {
+        return roomRepository.findById(roomId);
+    }
+
+    public List<Room> findRoomsByRoomType(String roomType) {
+        return roomRepository.findRoomsByRoomType(roomType);
+    }
+
+    public Room updateStatus(Long roomId, boolean status) {
+        Room room = roomRepository.findById(roomId);
+        room.getRoomStatus().updateStatus(status);
+        return room;
+    }
+
+    private void saveRooms(Place place, List<Integer> roomQuantity) {
         for (long i = 0; i < roomQuantity.size(); i++) {
             RoomKind roomKind = roomKindRepository.findById(i + 1);
             for (int j = 0; j < roomQuantity.get((int) i); j++) {
@@ -27,11 +45,4 @@ public class RoomService {
             }
         }
     }
-
-
-    public List<Room> findRoomsByRoomType(String roomType) {
-        return roomRepository.findRoomsByRoomType(roomType);
-    }
-
-
 }

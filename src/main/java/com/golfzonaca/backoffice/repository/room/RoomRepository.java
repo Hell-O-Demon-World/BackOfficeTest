@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Repository
 @Transactional
@@ -20,14 +20,14 @@ public class RoomRepository {
         return jpaRepository.save(room);
     }
 
-    public Optional<Room> findById(long id) {
-        return jpaRepository.findById(id);
+    public Room findById(long id) {
+        return jpaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 사무공간입니다."));
     }
 
     public List<Room> findRoomsByRoomType(String roomType) {
         return queryRepository.findRoomsByRoomType(roomType);
     }
-    
+
     public void delete(Room room) {
         jpaRepository.delete(room);
     }

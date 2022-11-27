@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container" style="max-width: 70%">
+    <div class="py-5 text-center">
+        <h2 th:text="${placeName}">공간 이름</h2>
+        <h2>사무공간 목록</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <div class="col">
+                <button class="btn btn-primary float-end"
+                        style="float: left!important;"
+                        th:onclick="|location.href='@{/places}'|"
+                        type="button">공간 목록으로 이동
+                </button>
+            </div>
+        </div>
+        </form>
+
+        <hr class="my-4">
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>등록번호</th>
+                    <th>사무공간 타입</th>
+                    <th>예약 상태</th>
+                    <th>사용 상태</th>
+                    <th>사용 가능</th>
+                    <th>사용 불가</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="room : ${rooms}">
+                    <td th:text="${room.key}">사무공간 아이디</td>
+                    <td th:text="${room.value.roomType}">사무공간 타입</td>
+                    <td th:href="@{|/${room.value.id}/reservations|}" th:text="${room.value.reservationStatus}">예약 중</a></td>
+                    <td th:text="${room.value.usingStatus}">사용 가능</td>
+                    <td>
+                        <button class="btn btn-primary float-end" style="float: left!important;"
+                                onclick="location.href='rooms.html'"
+                                th:onclick="|location.href='@{/room/{roomId}/enable(roomId=${room.value.id})}'|"
+                                type="button">사용 가능
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-primary float-end" style="float: left!important;"
+                                onclick="location.href='rooms.html'"
+                                th:onclick="|location.href='@{/room/{roomId}/disable(roomId=${room.value.id})}'|"
+                                type="button">사용 불가
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div> <!-- /container -->
+
+</body>
+</html>

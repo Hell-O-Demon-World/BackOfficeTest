@@ -17,8 +17,9 @@ import com.golfzonaca.backoffice.service.room.RoomService;
 import com.golfzonaca.backoffice.web.controller.place.dto.AddressDto;
 import com.golfzonaca.backoffice.web.controller.place.dto.PlaceAddDto;
 import com.golfzonaca.backoffice.web.controller.place.dto.PlaceDetailDto;
+import com.golfzonaca.backoffice.web.controller.place.dto.PlaceEditDto;
+import com.golfzonaca.backoffice.web.controller.typeconverter.DataTypeFormatter;
 import com.golfzonaca.backoffice.web.controller.typeconverter.TimeFormatter;
-import com.golfzonaca.backoffice.web.controller.typeconverter.TypeConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -69,7 +70,7 @@ public class PlaceController {
         Place place = placeService.findById(placeId);
         Map<String, Integer> roomQuantity = placeService.calculateRoomQuantity(place);
 
-        PlaceDetailDto placeDetailDto = new PlaceDetailDto(place.getId(), place.getPlaceName(), place.getDescription(), TypeConverter.stringToList(place.getOpenDays()), place.getPlaceStart().toString(), place.getPlaceEnd().toString(), TypeConverter.stringToList(place.getPlaceAddInfo()), place.getAddress().getAddress(), place.getAddress().getPostalCode(), roomQuantity);
+        PlaceDetailDto placeDetailDto = new PlaceDetailDto(place.getId(), place.getPlaceName(), place.getDescription(), DataTypeFormatter.stringToList(place.getOpenDays()), place.getPlaceStart().toString(), place.getPlaceEnd().toString(), DataTypeFormatter.stringToList(place.getPlaceAddInfo()), place.getAddress().getAddress(), place.getAddress().getPostalCode(), roomQuantity);
         model.addAttribute("DaysType", daysType());
         model.addAttribute("AddInfoType", addInfoType());
         model.addAttribute("RoomTypes", roomType());
@@ -90,7 +91,7 @@ public class PlaceController {
         Company company = companyService.findById(jwtRepository.getUserId());
         Address address = addressService.save(new Address(addressDto.getAddress(), addressDto.getPostalCode()));
         RatePoint ratePoint = ratePointService.save(new RatePoint(0F));
-        Place place = placeService.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), TypeConverter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), TypeConverter.listToString(placeAddDto.getPlaceAddInfo()), address));
+        Place place = placeService.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
         roomService.save(place, placeAddDto.getRoomQuantity());
 
         redirectAttributes.addAttribute("id", place.getId());
@@ -102,21 +103,17 @@ public class PlaceController {
     public String editForm(@PathVariable Long placeId, Model model) {
         Place place = placeService.findById(placeId);
         Map<String, Integer> roomQuantity = placeService.calculateRoomQuantity(place);
-        PlaceDetailDto placeDetailDto = new PlaceDetailDto(place.getId(), place.getPlaceName(), place.getDescription(), TypeConverter.stringToList(place.getOpenDays()), place.getPlaceStart().toString(), place.getPlaceEnd().toString(), TypeConverter.stringToList(place.getPlaceAddInfo()), place.getAddress().getAddress(), place.getAddress().getPostalCode(), roomQuantity);
+        PlaceDetailDto placeDetailDto = new PlaceDetailDto(place.getId(), place.getPlaceName(), place.getDescription(), DataTypeFormatter.stringToList(place.getOpenDays()), place.getPlaceStart().toString(), place.getPlaceEnd().toString(), DataTypeFormatter.stringToList(place.getPlaceAddInfo()), place.getAddress().getAddress(), place.getAddress().getPostalCode(), roomQuantity);
         model.addAttribute("place", placeDetailDto);
         return "place/editForm";
     }
-/*
+
     @PostMapping("/{placeId}/edit")
-    public String edit(@PathVariable Long placeId, @ModelAttribute PlaceEditDto updateViewParam, LocationUpdateDto updateParam) {
-        long addressId = placeService.findById(placeId).get().getAddressId();
-        updateViewParam.setAddressId(addressId);
-        PlaceUpdateDto place = transformType.editTransform(updateViewParam);
-        placeService.update(placeId, place);
-        addressService.update(addressId, updateParam);
+    public String editPlace(@PathVariable Long placeId, @ModelAttribute PlaceEditDto placeEditDto) {
+        placeService.update(placeService.findById(placeId), placeEditDto);
         return "redirect:/places/{placeId}";
     }
-*/
+
 
     @GetMapping("/{placeId}/delete")
     public String delete(@PathVariable Long placeId) {
