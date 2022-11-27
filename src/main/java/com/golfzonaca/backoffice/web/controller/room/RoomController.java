@@ -1,10 +1,13 @@
 package com.golfzonaca.backoffice.web.controller.room;
 
 import com.golfzonaca.backoffice.domain.Place;
+import com.golfzonaca.backoffice.domain.Reservation;
 import com.golfzonaca.backoffice.domain.Room;
 import com.golfzonaca.backoffice.service.place.PlaceService;
+import com.golfzonaca.backoffice.service.reservation.ReservationService;
 import com.golfzonaca.backoffice.service.room.RoomService;
 import com.golfzonaca.backoffice.web.controller.room.dto.RoomDto;
+import com.golfzonaca.backoffice.web.controller.typeconverter.PresentReservationFormatter;
 import com.golfzonaca.backoffice.web.controller.typeconverter.RoomStatusFormatter;
 import com.golfzonaca.backoffice.web.controller.typeconverter.RoomTypeFormatter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -24,12 +30,14 @@ import java.util.Map;
 public class RoomController {
     private final PlaceService placeService;
     private final RoomService roomService;
+    private final ReservationService reservationService;
 
     @GetMapping("/{placeId}/rooms")
     public String rooms(@PathVariable Long placeId, Model model) {
         Place place = placeService.findById(placeId);
         Map<Integer, RoomDto> rooms = processRoomData(place);
         model.addAttribute("placeName", place.getPlaceName());
+        model.addAttribute("placeId", placeId);
         model.addAttribute("rooms", rooms);
         return "room/rooms";
     }
@@ -52,7 +60,8 @@ public class RoomController {
         Map<Integer, RoomDto> rooms = new LinkedHashMap<>();
         for (int i = 0; i < place.getRooms().size(); i++) {
             Room room = place.getRooms().get(i);
-            rooms.put(i, new RoomDto(room.getId().toString(), RoomTypeFormatter.valueToDescription(room.getRoomKind().getRoomType()), "예약 없음", RoomStatusFormatter.booleanToString(room.getRoomStatus().getStatus())));
+            List<Reservation> reservation = reservationService.findByResStartTime(room.getId(), LocalDate.now(), LocalTime.now());
+            rooms.put(i, new RoomDto(room.getId().toString(), RoomTypeFormatter.valueToDescription(room.getRoomKind().getRoomType()), PresentReservationFormatter.booleanToString(reservation.isEmpty()), RoomStatusFormatter.booleanToString(room.getRoomStatus().getStatus())));
         }
         return rooms;
     }

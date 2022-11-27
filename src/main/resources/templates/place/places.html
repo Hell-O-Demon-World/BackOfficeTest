@@ -12,25 +12,25 @@
         <h2>공간 목록</h2>
     </div>
 
-        <div class="row">
-            <div class="CompanyLoginId">
-                <h4 th:text="${companyLoginId}">업체로그인아이디</h4>
-            </div>
-            <div class="col">
-                <button class="btn btn-primary float-end"
-                        style="float: left!important;"
-                        th:onclick="|location.href='@{/places/signout}'|"
-                        type="button">로그아웃
-                </button>
-            </div>
-            <div class="col">
-                <button class="btn btn-primary float-end"
-                        onclick="location.href='addForm.html'"
-                        th:onclick="|location.href='@{/places/add}'|"
-                        type="button">상품 등록
-                </button>
-            </div>
+    <div class="row">
+        <div class="CompanyLoginId">
+            <h4 th:text="${companyLoginId}">업체로그인아이디</h4>
         </div>
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    style="float: left!important;"
+                    th:onclick="|location.href='@{/places/signout}'|"
+                    type="button">로그아웃
+            </button>
+        </div>
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/places/add}'|"
+                    type="button">상품 등록
+            </button>
+        </div>
+    </div>
     </form>
 
     <hr class="my-4">
@@ -43,6 +43,7 @@
                 <th>오픈시간</th>
                 <th>마감시간</th>
                 <th>사무공간 목록</th>
+                <th>예약 목록</th>
                 <th>수익금 조회</th>
             </tr>
             </thead>
@@ -55,6 +56,12 @@
                 <td>
                     <button class="btn btn-primary float-end" style="float: left!important;"
                             th:onclick="|location.href='@{/{placeId}/rooms(placeId=${place.id})}'|"
+                            type="button">조회
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-primary float-end" style="float: left!important;"
+                            th:onclick="|location.href='@{/{placeId}/reservations(placeId=${place.id})}'|"
                             type="button">조회
                     </button>
                 </td>

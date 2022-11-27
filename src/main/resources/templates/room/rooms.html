@@ -17,7 +17,7 @@
         <div class="col">
             <div class="col">
                 <button class="btn btn-primary float-end"
-                        style="float: left!important;"
+                        style="float: right!important;"
                         th:onclick="|location.href='@{/places}'|"
                         type="button">공간 목록으로 이동
                 </button>
@@ -40,9 +40,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="room : ${rooms}">
-                    <td th:text="${room.key}">사무공간 아이디</td>
+                    <td th:text="${room.value.getId()}">사무공간 아이디</td>
                     <td th:text="${room.value.roomType}">사무공간 타입</td>
-                    <td th:href="@{|/${room.value.id}/reservations|}" th:text="${room.value.reservationStatus}">예약 중</a></td>
+                    <td><a th:href="@{|/${placeId}/reservations|}" th:text="${room.value.reservationStatus}">예약 중</a></td>
                     <td th:text="${room.value.usingStatus}">사용 가능</td>
                     <td>
                         <button class="btn btn-primary float-end" style="float: left!important;"

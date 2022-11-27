@@ -17,6 +17,8 @@ title OfficeSharingPlatform
     환경 설정             :chap1, 11-16, 1d
 
     section 백오피스
-
+    Spring Jpa, QueryDsl 적용 (Back Office) : chap1, 11-26, 1d
+    예약 제외 설정 추가 (Back Office)           : chap2, 11-27, 1d
+    예약 관리 대시보드 추가 (Back Office)        : chap3, 11-27, 1d
 
 ```

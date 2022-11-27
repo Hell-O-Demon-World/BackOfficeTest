@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalTime;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -53,10 +53,10 @@ public class Place {
 
     //양방향 매핑
     @OneToMany(mappedBy = "place")
-    private List<Room> rooms = new ArrayList<>();
+    private List<Room> rooms = new LinkedList<>();
 
     @OneToMany(mappedBy = "place")
-    private List<Rating> ratings = new ArrayList<>();
+    private List<Rating> ratings = new LinkedList<>();
 
 
     public Place(Company company, RatePoint ratePoint, String placeName, String description, String openDays, LocalTime placeStart, LocalTime placeEnd, String placeAddInfo, Address address) {

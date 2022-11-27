@@ -13,10 +13,10 @@
         <h2>예약 목록</h2>
     </div>
 
-    <form th:object="${companySearch}" method="get" class="form-inline">
+    <form th:object="${reservationSearch}" method="get" class="form-inline">
         <div class="row">
             <div class="col">
-                <input type="text" th:field="*{companyName}" class="form-control" placeholder="예약 번호"/>
+                <input type="text" th:field="*{searchWord}" class="form-control" placeholder="예약 번호"/>
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-secondary mb-2">검색</button>
@@ -32,29 +32,41 @@
                 </div>
             </div>
         </div>
-
     </form>
+
         <hr class="my-4">
         <div>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>등록번호</th>
+                    <th>예약 번호</th>
                     <th>예약자 이름</th>
                     <th>예약자 전화번호</th>
                     <th>예약자 이메일</th>
+                    <th>사무공간 등록번호</th>
+                    <th>사무공간 타입</th>
                     <th>예약 시작시간</th>
                     <th>예약 종료시간</th>
+                    <th>예약 취소</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="room : ${rooms}">
-                    <td th:text="${room.key}">1</td>
-                    <td th:text="${room.value.roomType}">홍길동</td>
-                    <td th:text="${room.value.reservationStatus}">01012345678</td>
-                    <td th:text="${room.value.usingStatus}">test0000@test.com</td>
-                    <td th:text="${room.value.usingStatus}">2022-07-25 09:00</td>
-                    <td th:text="${room.value.usingStatus}">2022-12-29 17:50</td>
+                <tr th:each="reservation: ${reservations}">
+                    <td th:text="${reservation.value.id}">1</td>
+                    <td th:text="${reservation.value.userName}">홍길동</td>
+                    <td th:text="${reservation.value.userTel}">01012345678</td>
+                    <td th:text="${reservation.value.userEmail}">test0000@test.com</td>
+                    <td th:text="${reservation.value.roomId}">1</td>
+                    <td th:text="${reservation.value.roomType}">데스크</td>
+                    <td th:text="${reservation.value.startDateTime}">2022-07-25 09:00</td>
+                    <td th:text="${reservation.value.endDateTime}">2022-12-29 17:50</td>
+                    <td>
+                        <button class="btn btn-primary float-end" style="float: left!important;"
+                                onclick="location.href='reservations.html'"
+                                th:onclick="|location.href='@{/{placeId}/reservations/{reservationId}/cancel(placeId=${placeId}, reservationId=${reservation.value.id})}'|"
+                                type="button">예약 취소
+                        </button>
+                    </td>
                 </tr>
                 </tbody>
             </table>

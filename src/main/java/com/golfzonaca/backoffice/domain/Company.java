@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -41,7 +41,7 @@ public class Company {
     private Address address;
 
     @OneToMany(mappedBy = "company")
-    private List<Place> placeList = new ArrayList<>();
+    private List<Place> placeList = new LinkedList<>();
 
     @Builder
     public Company(String loginId, String pw, String name, String tel, String regNum, String repName, Address address) {

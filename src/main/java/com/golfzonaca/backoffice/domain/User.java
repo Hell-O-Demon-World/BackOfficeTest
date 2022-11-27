@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -49,7 +49,7 @@ public class User {
 
     //양방향 매핑
     @OneToMany(mappedBy = "ratingWriter")
-    private List<Rating> ratings = new ArrayList<>();
+    private List<Rating> ratings = new LinkedList<>();
 
     public User(Long id) {
         this.id = id;

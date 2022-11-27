@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -30,7 +30,7 @@ public class Room {
 
     //양방향 매핑
     @OneToMany(mappedBy = "room")
-    private List<Reservation> reservationList = new ArrayList<>();
+    private List<Reservation> reservationList = new LinkedList<>();
 
     @OneToOne(mappedBy = "room")
     private RoomStatus roomStatus;
