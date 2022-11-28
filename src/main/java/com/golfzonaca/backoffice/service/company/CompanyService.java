@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -16,7 +14,7 @@ public class CompanyService {
     private final CompanyRepository repository;
 
     public Company findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 회사입니다."));
+        return repository.findById(id);
     }
 
     public Company findByLoginId(String loginId) {

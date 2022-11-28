@@ -1,5 +1,7 @@
 package com.golfzonaca.backoffice.web.controller.typeconverter;
 
+import org.springframework.util.StringUtils;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -9,18 +11,27 @@ import java.util.Locale;
 
 public class TimeFormatter {
     public static LocalDate toLocalDate(String day) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d");
-        return LocalDate.parse(day, formatter);
+        if (StringUtils.hasText(day)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d");
+            return LocalDate.parse(day, formatter);
+        }
+        return null;
     }
 
     public static LocalTime toLocalTime(String hour) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:m");
-        return LocalTime.parse(hour, formatter);
+        if (StringUtils.hasText(hour)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("H:m");
+            return LocalTime.parse(hour, formatter);
+        }
+        return null;
     }
 
     public static LocalDateTime toLocalDateTime(String dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d H:m:s");
-        return LocalDateTime.parse(dateTime, formatter);
+        if (StringUtils.hasText(dateTime)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-M-d H:m:s");
+            return LocalDateTime.parse(dateTime, formatter);
+        }
+        return null;
     }
 
     public static String toDayOfTheWeek(LocalDate date) {

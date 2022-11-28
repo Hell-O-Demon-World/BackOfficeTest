@@ -22,6 +22,14 @@ public class ReservationRepository {
         return queryRepository.findByIdAndPlaceId(placeId, reservationId);
     }
 
+    public List<Reservation> findByPlaceIdAndPeriod(Long placeId, LocalDate startDate, LocalDate endDate) {
+        if (startDate == null && endDate == null) {
+            return queryRepository.findByPlaceId(placeId);
+        } else {
+            return queryRepository.findByPlaceIdAndPeriod(placeId, startDate, endDate);
+        }
+    }
+
     public List<Reservation> findByCondition(Long placeId, ReservationSearchCond data) {
         if (StringUtils.hasText(data.getSearchWord())) {
             return queryRepository.findByCondition(placeId, data);

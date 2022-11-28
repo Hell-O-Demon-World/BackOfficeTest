@@ -61,6 +61,7 @@ public class PlaceController {
     public String places(Model model) throws JsonProcessingException {
         Company company = companyService.findById(jwtRepository.getUserId());
         model.addAttribute("places", company.getPlaceList());
+        model.addAttribute("companyId", company.getId());
         model.addAttribute("companyLoginId", company.getLoginId());
         return "place/places";
     }

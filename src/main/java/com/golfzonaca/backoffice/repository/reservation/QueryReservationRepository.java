@@ -25,6 +25,20 @@ public class QueryReservationRepository {
         this.query = new JPAQueryFactory(em);
     }
 
+    public List<Reservation> findByPlaceId(Long placeId) {
+        return query
+                .selectFrom(reservation)
+                .where(likePlaceId(placeId))
+                .fetch();
+    }
+
+    public List<Reservation> findByPlaceIdAndPeriod(Long placeId, LocalDate startDate, LocalDate endDate) {
+        return query
+                .selectFrom(reservation)
+                .where(likePlaceId(placeId), goeDate(startDate), loeDate(endDate))
+                .fetch();
+    }
+
     public Reservation findByIdAndPlaceId(Long placeId, Long reservationId) {
         return query
                 .selectFrom(reservation)
@@ -42,7 +56,7 @@ public class QueryReservationRepository {
     public List<Reservation> findByResStartTime(Long roomId, LocalDate date, LocalTime time) {
         return query
                 .selectFrom(reservation)
-                .where(likeRoomId(roomId), goeDate(date), goeTime(time))
+                .where(likeRoomId(roomId), eqDate(date).and(goeTime(time)).or(afterDate(date)))
                 .fetch();
     }
 
@@ -81,8 +95,20 @@ public class QueryReservationRepository {
         return null;
     }
 
+    private BooleanExpression eqDate(LocalDate date) {
+        return reservation.resStartDate.eq(date);
+    }
+
+    private BooleanExpression afterDate(LocalDate date) {
+        return reservation.resStartDate.after(date);
+    }
+
     private BooleanExpression goeDate(LocalDate date) {
         return reservation.resStartDate.goe(date);
+    }
+
+    private BooleanExpression loeDate(LocalDate date) {
+        return reservation.resEndDate.loe(date);
     }
 
     private BooleanExpression goeTime(LocalTime time) {

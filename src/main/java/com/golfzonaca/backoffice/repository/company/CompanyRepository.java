@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Repository
 @Transactional
@@ -15,8 +14,8 @@ public class CompanyRepository {
     private final JpaCompanyRepository jpaRepository;
     private final QueryCompanyRepository queryRepository;
 
-    public Optional<Company> findById(Long id) {
-        return jpaRepository.findById(id);
+    public Company findById(Long id) {
+        return jpaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 업체입니다."));
     }
 
     public Company findByLoginId(String loginId) {
