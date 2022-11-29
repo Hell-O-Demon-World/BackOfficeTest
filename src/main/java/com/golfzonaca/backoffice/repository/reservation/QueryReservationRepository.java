@@ -25,31 +25,31 @@ public class QueryReservationRepository {
         this.query = new JPAQueryFactory(em);
     }
 
-    public List<Reservation> findByPlaceId(Long placeId) {
+    public List<Reservation> findByPlaceId(Long roomId) {
         return query
                 .selectFrom(reservation)
-                .where(likePlaceId(placeId))
+                .where(likeRoomId(roomId))
                 .fetch();
     }
 
-    public List<Reservation> findByPlaceIdAndPeriod(Long placeId, LocalDate startDate, LocalDate endDate) {
+    public List<Reservation> findByPlaceIdAndPeriod(Long roomId, LocalDate startDate, LocalDate endDate) {
         return query
                 .selectFrom(reservation)
-                .where(likePlaceId(placeId), goeDate(startDate), loeDate(endDate))
+                .where(likeRoomId(roomId), goeDate(startDate), loeDate(endDate))
                 .fetch();
     }
 
-    public Reservation findByIdAndPlaceId(Long placeId, Long reservationId) {
+    public Reservation findByIdAndPlaceId(Long roomId, Long reservationId) {
         return query
                 .selectFrom(reservation)
-                .where(likePlaceId(placeId), likeId(String.valueOf(reservationId)))
+                .where(likeRoomId(roomId), likeId(String.valueOf(reservationId)))
                 .fetchOne();
     }
 
-    public List<Reservation> findByCondition(Long placeId, ReservationSearchCond data) {
+    public List<Reservation> findByCondition(Long roomId, ReservationSearchCond data) {
         return query
                 .selectFrom(reservation)
-                .where(likePlaceId(placeId), likeId(data.getSearchWord()).or(likeUserName(data.getSearchWord())).or(likeUserEmail(data.getSearchWord())))
+                .where(likeRoomId(roomId), likeId(data.getSearchWord()).or(likeUserName(data.getSearchWord())).or(likeUserEmail(data.getSearchWord())))
                 .fetch();
     }
 
@@ -58,13 +58,6 @@ public class QueryReservationRepository {
                 .selectFrom(reservation)
                 .where(likeRoomId(roomId), eqDate(date).and(goeTime(time)).or(afterDate(date)))
                 .fetch();
-    }
-
-    private BooleanExpression likePlaceId(Long placeId) {
-        if (placeId != null) {
-            return reservation.place.id.eq(placeId);
-        }
-        return null;
     }
 
     private BooleanExpression likeRoomId(Long roomId) {

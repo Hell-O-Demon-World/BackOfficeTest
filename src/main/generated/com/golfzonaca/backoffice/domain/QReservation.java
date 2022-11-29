@@ -24,8 +24,6 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final QPlace place;
-
     public final DatePath<java.time.LocalDate> resEndDate = createDate("resEndDate", java.time.LocalDate.class);
 
     public final TimePath<java.time.LocalTime> resEndTime = createTime("resEndTime", java.time.LocalTime.class);
@@ -56,7 +54,6 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public QReservation(Class<? extends Reservation> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.place = inits.isInitialized("place") ? new QPlace(forProperty("place"), inits.get("place")) : null;
         this.room = inits.isInitialized("room") ? new QRoom(forProperty("room"), inits.get("room")) : null;
         this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }

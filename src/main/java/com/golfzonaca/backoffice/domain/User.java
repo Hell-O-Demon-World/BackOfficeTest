@@ -51,6 +51,7 @@ public class User {
     @OneToMany(mappedBy = "ratingWriter")
     private List<Rating> ratings = new LinkedList<>();
 
+
     public User(Long id) {
         this.id = id;
     }
@@ -74,7 +75,7 @@ public class User {
         this.mileage = mileage;
     }
 
-    public void setRole(Role role) {
+    public void updateRole(Role role) {
         this.role = role;
     }
 }

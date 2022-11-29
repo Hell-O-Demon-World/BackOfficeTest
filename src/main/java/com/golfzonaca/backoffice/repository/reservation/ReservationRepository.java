@@ -30,11 +30,11 @@ public class ReservationRepository {
         }
     }
 
-    public List<Reservation> findByCondition(Long placeId, ReservationSearchCond data) {
+    public List<Reservation> findByCondition(Long roomId, ReservationSearchCond data) {
         if (StringUtils.hasText(data.getSearchWord())) {
-            return queryRepository.findByCondition(placeId, data);
+            return queryRepository.findByCondition(roomId, data);
         } else {
-            return jpaRepository.findByPlaceId(placeId);
+            return jpaRepository.findByRoomId(roomId);
         }
     }
 

@@ -2,6 +2,7 @@ package com.golfzonaca.backoffice.web.controller.reservation;
 
 import com.golfzonaca.backoffice.domain.Place;
 import com.golfzonaca.backoffice.domain.Reservation;
+import com.golfzonaca.backoffice.domain.Room;
 import com.golfzonaca.backoffice.service.place.PlaceService;
 import com.golfzonaca.backoffice.service.reservation.ReservationService;
 import com.golfzonaca.backoffice.web.controller.reservation.dto.ReservationDto;
@@ -31,7 +32,7 @@ public class ReservationController {
     @GetMapping("/{placeId}/reservations")
     public String reservations(@ModelAttribute("reservationSearch") ReservationSearchCond searchData, @PathVariable Long placeId, Model model) {
         Place place = placeService.findById(placeId);
-        Map<Integer, ReservationDto> reservationDtoMap = processReservationData(placeId, searchData);
+        Map<Integer, ReservationDto> reservationDtoMap = processReservationData(place, searchData);
         model.addAttribute("placeId", placeId);
         model.addAttribute("placeName", place.getPlaceName());
         model.addAttribute("reservations", reservationDtoMap);
@@ -45,12 +46,15 @@ public class ReservationController {
         return "redirect:/{placeId}/reservations";
     }
 
-    private Map<Integer, ReservationDto> processReservationData(Long placeId, ReservationSearchCond searchData) {
+    private Map<Integer, ReservationDto> processReservationData(Place place, ReservationSearchCond searchData) {
         Map<Integer, ReservationDto> reservationDtoMap = new LinkedHashMap<>();
-        List<Reservation> reservations = reservationService.findByCondition(placeId, searchData);
-        for (int i = 0; i < reservations.size(); i++) {
-            Reservation reservation = reservations.get(i);
-            reservationDtoMap.put(i, new ReservationDto(reservation.getId(), reservation.getUser().getUsername(), reservation.getUser().getPhoneNumber(), reservation.getUser().getEmail(), reservation.getRoom().getId(), RoomTypeFormatter.valueToDescription(reservation.getRoom().getRoomKind().getRoomType()), LocalDateTime.of(reservation.getResStartDate(), reservation.getResStartTime()), LocalDateTime.of(reservation.getResEndDate(), reservation.getResEndTime())));
+        List<Room> rooms = place.getRooms();
+        for (Room room : rooms) {
+            List<Reservation> reservations = reservationService.findByCondition(room.getId(), searchData);
+            for (int i = 0; i < reservations.size(); i++) {
+                Reservation reservation = reservations.get(i);
+                reservationDtoMap.put(i, new ReservationDto(reservation.getId(), reservation.getUser().getUsername(), reservation.getUser().getPhoneNumber(), reservation.getUser().getEmail(), reservation.getRoom().getId(), RoomTypeFormatter.valueToDescription(reservation.getRoom().getRoomKind().getRoomType()), LocalDateTime.of(reservation.getResStartDate(), reservation.getResStartTime()), LocalDateTime.of(reservation.getResEndDate(), reservation.getResEndTime())));
+            }
         }
         return reservationDtoMap;
     }

@@ -22,8 +22,8 @@ public class ReservationService {
         return reservationRepository.findById(placeId, reservationId);
     }
 
-    public List<Reservation> findByCondition(Long placeId, ReservationSearchCond data) {
-        return reservationRepository.findByCondition(placeId, data);
+    public List<Reservation> findByCondition(Long roomId, ReservationSearchCond data) {
+        return reservationRepository.findByCondition(roomId, data);
     }
 
     public void delete(Long placeId, Long reservationId) {
