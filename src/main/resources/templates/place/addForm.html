@@ -6,7 +6,7 @@
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <style>
         .container {
-            max-width: 560px;
+            max-width: 70%;
         }
 
         .quantity-info {
@@ -16,17 +16,21 @@
 
         .type-quantity {
             display: flex;
-            width: 33.33%;
+            width: 15%;
             flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
         }
 
         .type-quantity input {
-            width: 40%;
+            width: 60%;
             text-align: center;
-            margin-top: 5px;
-            margin-right: 10px;
+            margin-top: 5%;
+            margin-right: 10%;
+        }
+
+        .imageFiles {
+            margin-left: 1%;
         }
     </style>
 </head>
@@ -35,12 +39,12 @@
 <div class="container">
 
     <div class="py-5 text-center">
-        <h2 th:text="#{page.addPlace}">사무공간 등록</h2>
+        <h2 th:text="#{page.addPlace}">공간 등록</h2>
     </div>
 
-    <form action="place.html" th:action method="post">
+    <form action="place.html" th:action method="post" enctype="multipart/form-data">
         <div>
-            <label for="placeName" th:text="#{label.place.placeName}">사무공간명</label>
+            <label for="placeName" th:text="#{label.place.placeName}">공간명</label>
             <input type="text" id="placeName" th:field="${place.placeName}" name="placeName" class="form-control"
                    placeholder="이름을 입력하세요" minlength="1" maxlength="30" th:minlength="1" th:maxlength="30" required>
         </div>
@@ -70,9 +74,9 @@
         </div>
         <div>
             <label for="placeStart">오픈 시간</label>
-            <input type="time" id="placeStart" name="placeStart" class="form-control">
+            <input type="time" id="placeStart" name="placeStart" class="form-control" th:step="3600">
             <label for="placeEnd">종료 시간</label>
-            <input type="time" id="placeEnd" name="placeEnd" class="form-control">
+            <input type="time" id="placeEnd" name="placeEnd" class="form-control" th:step="3600">
         </div>
 
         <!-- multi checkbox -->
@@ -93,6 +97,27 @@
                        th:text="${room.description}" class="type-quantity">desk</label>
                 <input type="number" th:field="${place.roomQuantity}"
                        class="type-quantity input" min="0" value=0>
+            </div>
+
+            <div class="imageFiles">
+                공간 <input type="file" multiple="multiple" name="placeImage">
+                데스크 <input type="file" multiple="multiple" name="deskImage">
+            </div>
+            <div class="imageFiles">
+                4인 미팅룸 <input type="file" multiple="multiple" name="meetingRoom4Image">
+                6인 미팅룸 <input type="file" multiple="multiple" name="meetingRoom6Image">
+            </div>
+            <div class="imageFiles">
+                10인 미팅룸 <input type="file" multiple="multiple" name="meetingRoom10Image">
+                20인 미팅룸 <input type="file" multiple="multiple" name="meetingRoom20Image">
+            </div>
+            <div class="imageFiles">
+                20평 사무실 <input type="file" multiple="multiple" name="office20Image">
+                40평 사무실 <input type="file" multiple="multiple" name="office40Image">
+            </div>
+            <div class="imageFiles">
+                70평 사무실 <input type="file" multiple="multiple" name="office70Image">
+                100평 사무실 <input type="file" multiple="multiple" name="office100Image">
             </div>
         </div>
 

@@ -11,6 +11,7 @@ import com.golfzonaca.backoffice.domain.type.DaysType;
 import com.golfzonaca.backoffice.domain.type.RoomType;
 import com.golfzonaca.backoffice.service.address.AddressService;
 import com.golfzonaca.backoffice.service.company.CompanyService;
+import com.golfzonaca.backoffice.service.image.ImageService;
 import com.golfzonaca.backoffice.service.place.PlaceService;
 import com.golfzonaca.backoffice.service.ratepoint.RatePointService;
 import com.golfzonaca.backoffice.service.room.RoomService;
@@ -28,6 +29,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
@@ -41,6 +43,7 @@ public class PlaceController {
     private final RoomService roomService;
     private final AddressService addressService;
     private final RatePointService ratePointService;
+    private final ImageService imageService;
 
     @ModelAttribute("DaysType")
     public DaysType[] daysType() {
@@ -88,12 +91,13 @@ public class PlaceController {
 
     @Transactional
     @PostMapping("/add")
-    public String addPlace(@ModelAttribute PlaceAddDto placeAddDto, AddressDto addressDto, RedirectAttributes redirectAttributes) throws JsonProcessingException {
+    public String addPlace(@ModelAttribute PlaceAddDto placeAddDto, AddressDto addressDto, RedirectAttributes redirectAttributes) throws IOException {
         Company company = companyService.findById(jwtRepository.getUserId());
         Address address = addressService.save(new Address(addressDto.getAddress(), addressDto.getPostalCode()));
         RatePoint ratePoint = ratePointService.save(new RatePoint(0F));
         Place place = placeService.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
         roomService.save(place, placeAddDto.getRoomQuantity());
+        imageService.save(placeAddDto.getPlaceImage(), place);
 
         redirectAttributes.addAttribute("id", place.getId());
         redirectAttributes.addAttribute("status", true);
