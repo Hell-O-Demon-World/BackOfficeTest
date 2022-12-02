@@ -42,3 +42,6 @@ out/
 
 ### Node ###
 **/FE/node_modules
+
+### AWS S3 ###
+src/main/resources/application.yml

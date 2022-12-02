@@ -25,13 +25,13 @@ public class PlaceAddDto {
     private String postalCode;
     private List<Integer> roomQuantity;
     private List<MultipartFile> placeImage;
-    private List<MultipartFile> deskRoomImage;
-    private List<MultipartFile> meetingRoom4RoomImage;
-    private List<MultipartFile> meetingRoom6RoomImage;
-    private List<MultipartFile> meetingRoom10RoomImage;
-    private List<MultipartFile> meetingRoom20RoomImage;
-    private List<MultipartFile> office20RoomImage;
-    private List<MultipartFile> office40RoomImage;
-    private List<MultipartFile> office70RoomImage;
-    private List<MultipartFile> office100RoomImage;
+    private List<MultipartFile> deskImage;
+    private List<MultipartFile> meetingRoom4Image;
+    private List<MultipartFile> meetingRoom6Image;
+    private List<MultipartFile> meetingRoom10Image;
+    private List<MultipartFile> meetingRoom20Image;
+    private List<MultipartFile> office20Image;
+    private List<MultipartFile> office40Image;
+    private List<MultipartFile> office70Image;
+    private List<MultipartFile> office100Image;
 }

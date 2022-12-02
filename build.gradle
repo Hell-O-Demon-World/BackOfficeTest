@@ -50,8 +50,8 @@ dependencies {
 //  thymeleaf 추가
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-//  Spring Integration 추가 (FTP - 이미지 서버)
-    implementation "org.springframework.integration:spring-integration-ftp"
+//  Spring Boot Cloud AWS 추가 (이미지 서버)
+    implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

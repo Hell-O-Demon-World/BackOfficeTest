@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthService authService;
     private final JwtRepository jwtRepository;
     private static final RequestMatcher LOGIN_REQUEST_MATCHER = new AntPathRequestMatcher("/signin", "POST");
+
     @Bean
     public PasswordEncoder passwordEncoder() {  // passwordEncoder라는 인터페이스를 BcryptPasswordEncoder가 implement 하기 떄문에 new 가능!
         return new BCryptPasswordEncoder();
@@ -39,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         jsonAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
         return jsonAuthenticationFilter;
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -48,10 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").hasAnyRole();
-        http.addFilterAt(jsonIdPwAuthenticationProcessingFilter(),UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAt(jsonIdPwAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter, JsonIdPwAuthenticationProcessingFilter.class);
         http.userDetailsService(userDetailsService());
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(new IdPwAuthenticationProvider(authService, passwordEncoder(), jwtRepository));

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -19,8 +20,8 @@ public class RoomService {
     private final RoomRepository roomRepository;
     private final RoomKindRepository roomKindRepository;
 
-    public void save(Place place, List<Integer> roomQuantity) {
-        saveRooms(place, roomQuantity);
+    public List<RoomKind> save(Place place, List<Integer> roomQuantity) {
+        return saveRooms(place, roomQuantity);
     }
 
     public Room findById(Long roomId) {
@@ -37,12 +38,15 @@ public class RoomService {
         return room;
     }
 
-    private void saveRooms(Place place, List<Integer> roomQuantity) {
+    private List<RoomKind> saveRooms(Place place, List<Integer> roomQuantity) {
+        List<RoomKind> roomKindList = new LinkedList<>();
         for (long i = 0; i < roomQuantity.size(); i++) {
             RoomKind roomKind = roomKindRepository.findById(i + 1);
             for (int j = 0; j < roomQuantity.get((int) i); j++) {
-                roomRepository.save(new Room(roomKind, place));
+                Room room = roomRepository.save(new Room(roomKind, place));
+                roomKindList.add(room.getRoomKind());
             }
         }
+        return roomKindList;
     }
 }

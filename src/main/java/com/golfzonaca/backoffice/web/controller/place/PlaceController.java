@@ -2,10 +2,8 @@ package com.golfzonaca.backoffice.web.controller.place;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.golfzonaca.backoffice.auth.token.JwtRepository;
-import com.golfzonaca.backoffice.domain.Address;
 import com.golfzonaca.backoffice.domain.Company;
 import com.golfzonaca.backoffice.domain.Place;
-import com.golfzonaca.backoffice.domain.RatePoint;
 import com.golfzonaca.backoffice.domain.type.AddInfoType;
 import com.golfzonaca.backoffice.domain.type.DaysType;
 import com.golfzonaca.backoffice.domain.type.RoomType;
@@ -20,7 +18,6 @@ import com.golfzonaca.backoffice.web.controller.place.dto.PlaceAddDto;
 import com.golfzonaca.backoffice.web.controller.place.dto.PlaceDetailDto;
 import com.golfzonaca.backoffice.web.controller.place.dto.PlaceEditDto;
 import com.golfzonaca.backoffice.web.controller.typeconverter.DataTypeFormatter;
-import com.golfzonaca.backoffice.web.controller.typeconverter.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -92,13 +89,7 @@ public class PlaceController {
     @Transactional
     @PostMapping("/add")
     public String addPlace(@ModelAttribute PlaceAddDto placeAddDto, AddressDto addressDto, RedirectAttributes redirectAttributes) throws IOException {
-        Company company = companyService.findById(jwtRepository.getUserId());
-        Address address = addressService.save(new Address(addressDto.getAddress(), addressDto.getPostalCode()));
-        RatePoint ratePoint = ratePointService.save(new RatePoint(0F));
-        Place place = placeService.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
-        roomService.save(place, placeAddDto.getRoomQuantity());
-        imageService.save(placeAddDto.getPlaceImage(), place);
-
+        Place place = placeService.save(placeAddDto, addressDto);
         redirectAttributes.addAttribute("id", place.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/places/{id}";

@@ -25,13 +25,18 @@ public class RoomImage {
     private String savedPath;
 
     @ManyToOne
-    @JoinColumn(name = "ROOM_ID")
-    private Room room;
+    @JoinColumn(name = "PLACE_ID")
+    private Place place;
 
-    public RoomImage(String uploadFileName, String storeFileName, String savedPath, Room room) {
+    @ManyToOne
+    @JoinColumn(name = "ROOMKIND_ID")
+    private RoomKind roomKind;
+
+    public RoomImage(String uploadFileName, String storeFileName, String savedPath, Place place, RoomKind roomKind) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
         this.savedPath = savedPath;
-        this.room = room;
+        this.place = place;
+        this.roomKind = roomKind;
     }
 }
