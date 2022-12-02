@@ -42,10 +42,42 @@ public class PlaceService {
         Place place = placeRepository.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
         List<RoomKind> roomKindList = roomService.save(place, placeAddDto.getRoomQuantity());
         imageService.savePlaceImage(placeAddDto.getPlaceImage(), place);
-        for (RoomKind roomKind : roomKindList) {
-            imageService.saveRoomImage(placeAddDto.getDeskImage(), place, roomKind);
-        }
+        storeRoomImages(placeAddDto, place, roomKindList);
         return place;
+    }
+
+    private void storeRoomImages(PlaceAddDto placeAddDto, Place place, List<RoomKind> roomKindList) {
+        for (RoomKind roomKind : roomKindList) {
+            switch (roomKind.getRoomType()) {
+                case "DESK":
+                    imageService.saveRoomImage(placeAddDto.getDeskImage(), place, roomKind);
+                    break;
+                case "MEETINGROOM4":
+                    imageService.saveRoomImage(placeAddDto.getMeetingRoom4Image(), place, roomKind);
+                    break;
+                case "MEETINGROOM6":
+                    imageService.saveRoomImage(placeAddDto.getMeetingRoom6Image(), place, roomKind);
+                    break;
+                case "MEETINGROOM10":
+                    imageService.saveRoomImage(placeAddDto.getMeetingRoom10Image(), place, roomKind);
+                    break;
+                case "MEETINGROOM20":
+                    imageService.saveRoomImage(placeAddDto.getMeetingRoom20Image(), place, roomKind);
+                    break;
+                case "OFFICE20":
+                    imageService.saveRoomImage(placeAddDto.getOffice20Image(), place, roomKind);
+                    break;
+                case "OFFICE40":
+                    imageService.saveRoomImage(placeAddDto.getOffice40Image(), place, roomKind);
+                    break;
+                case "OFFICE70":
+                    imageService.saveRoomImage(placeAddDto.getOffice70Image(), place, roomKind);
+                    break;
+                case "OFFICE100":
+                    imageService.saveRoomImage(placeAddDto.getOffice100Image(), place, roomKind);
+                    break;
+            }
+        }
     }
 
     public Place findById(Long placeId) {

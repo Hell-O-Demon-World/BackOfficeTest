@@ -42,7 +42,7 @@ public class S3ImageUploader {
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
         File file = convert(multipartFile, storeFileName).orElseThrow(() -> new NoSuchElementException("파일 변환에 실패하였습니다."));
-        amazonS3Client.putObject(bucket, place.getId().toString().concat("/").concat("PLACE").concat(file.getName()), file);
+        amazonS3Client.putObject(bucket, place.getId().toString().concat("/").concat("PLACE").concat("/").concat(file.getName()), file);
         String fullPath = getUrl(storeFileName);
         file.delete();
         return new PlaceImage(originalFilename, storeFileName, fullPath, place);
