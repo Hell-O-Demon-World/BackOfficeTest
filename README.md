@@ -17,10 +17,10 @@ title OfficeSharingPlatform
     환경 설정             :chap1, 11-16, 1d
 
     section 백오피스
-    Spring Jpa, QueryDsl 적용 (Back Office) : chap1, 11-26, 1d
-    예약 제외 설정 추가 (Back Office)           : chap2, 11-27, 1d
-    예약 관리 추가 (Back Office)               : chap3, 11-27, 1d
-    수익금 조회 추가 (Back Office)              : chap4, 11-28, 1d
-    수익금 조회 추가 (Back Office)              : chap4, 11-28, 1d
+    Spring Jpa, QueryDsl 적용 : chap1, 11-26, 1d
+    예약 제외 설정 추가           : chap2, 11-27, 1d
+    예약 관리 추가               : chap3, 11-27, 1d
+    수익금 조회 추가              : chap4, 11-28, 1d
+    이미지 업로드 추가             : chap5, 12-01, 2d
 
 ```
