@@ -42,8 +42,8 @@ public class S3ImageUploader {
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
         File file = convert(multipartFile, storeFileName).orElseThrow(() -> new NoSuchElementException("파일 변환에 실패하였습니다."));
-        amazonS3Client.putObject(bucket, place.getId().toString().concat("/").concat("PLACE").concat("/").concat(file.getName()), file);
-        String fullPath = getUrl(storeFileName);
+        amazonS3Client.putObject(bucket, place.getId().toString() + "/" + "PLACE" + "/" + file.getName(), file);
+        String fullPath = getUrl(place.getId().toString() + "/" + "PLACE" + "/" + file.getName());
         file.delete();
         return new PlaceImage(originalFilename, storeFileName, fullPath, place);
     }
@@ -65,8 +65,8 @@ public class S3ImageUploader {
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
         File file = convert(multipartFile, storeFileName).orElseThrow(() -> new NoSuchElementException("파일 변환에 실패하였습니다."));
-        amazonS3Client.putObject(bucket, place.getId().toString().concat("/").concat(roomKind.getRoomType()).concat("/").concat(file.getName()), file);
-        String fullPath = getUrl(storeFileName);
+        amazonS3Client.putObject(bucket, place.getId().toString() + "/" + roomKind.getRoomType() + "/" + file.getName(), file);
+        String fullPath = getUrl(place.getId().toString() + "/" + roomKind.getRoomType() + "/" + file.getName());
         file.delete();
         return new RoomImage(originalFilename, storeFileName, fullPath, place, roomKind);
     }
@@ -92,7 +92,6 @@ public class S3ImageUploader {
         }
         return Optional.empty();
     }
-
 
     public String getUrl(String filename) {
         return amazonS3Client.getUrl(bucket, filename).toString();

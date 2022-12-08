@@ -9,10 +9,7 @@ import com.golfzonaca.backoffice.domain.type.DaysType;
 import com.golfzonaca.backoffice.domain.type.RoomType;
 import com.golfzonaca.backoffice.service.address.AddressService;
 import com.golfzonaca.backoffice.service.company.CompanyService;
-import com.golfzonaca.backoffice.service.image.ImageService;
 import com.golfzonaca.backoffice.service.place.PlaceService;
-import com.golfzonaca.backoffice.service.ratepoint.RatePointService;
-import com.golfzonaca.backoffice.service.room.RoomService;
 import com.golfzonaca.backoffice.web.controller.place.dto.AddressDto;
 import com.golfzonaca.backoffice.web.controller.place.dto.PlaceAddDto;
 import com.golfzonaca.backoffice.web.controller.place.dto.PlaceDetailDto;
@@ -37,10 +34,7 @@ public class PlaceController {
     private final JwtRepository jwtRepository;
     private final CompanyService companyService;
     private final PlaceService placeService;
-    private final RoomService roomService;
     private final AddressService addressService;
-    private final RatePointService ratePointService;
-    private final ImageService imageService;
 
     @ModelAttribute("DaysType")
     public DaysType[] daysType() {

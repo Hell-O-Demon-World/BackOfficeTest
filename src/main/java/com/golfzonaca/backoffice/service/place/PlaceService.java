@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -40,13 +40,13 @@ public class PlaceService {
         Address address = addressRepository.save(new Address(addressDto.getAddress(), addressDto.getPostalCode()));
         RatePoint ratePoint = ratePointRepository.save(new RatePoint(0F));
         Place place = placeRepository.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
-        List<RoomKind> roomKindList = roomService.save(place, placeAddDto.getRoomQuantity());
+        Set<RoomKind> roomKindList = roomService.save(place, placeAddDto.getRoomQuantity());
         imageService.savePlaceImage(placeAddDto.getPlaceImage(), place);
         storeRoomImages(placeAddDto, place, roomKindList);
         return place;
     }
 
-    private void storeRoomImages(PlaceAddDto placeAddDto, Place place, List<RoomKind> roomKindList) {
+    private void storeRoomImages(PlaceAddDto placeAddDto, Place place, Set<RoomKind> roomKindList) {
         for (RoomKind roomKind : roomKindList) {
             switch (roomKind.getRoomType()) {
                 case "DESK":

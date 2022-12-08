@@ -11,8 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -23,7 +24,7 @@ public class RoomService {
     private final RoomKindRepository roomKindRepository;
     private final RoomStatusRepository roomStatusRepository;
 
-    public List<RoomKind> save(Place place, List<Integer> roomQuantity) {
+    public Set<RoomKind> save(Place place, List<Integer> roomQuantity) {
         return saveRooms(place, roomQuantity);
     }
 
@@ -41,8 +42,8 @@ public class RoomService {
         return room;
     }
 
-    private List<RoomKind> saveRooms(Place place, List<Integer> roomQuantity) {
-        List<RoomKind> roomKindList = new LinkedList<>();
+    private Set<RoomKind> saveRooms(Place place, List<Integer> roomQuantity) {
+        Set<RoomKind> roomKindList = new LinkedHashSet<>();
         for (long i = 0; i < roomQuantity.size(); i++) {
             RoomKind roomKind = roomKindRepository.findById(i + 1);
             for (int j = 0; j < roomQuantity.get((int) i); j++) {
