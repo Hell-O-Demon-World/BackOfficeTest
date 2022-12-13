@@ -12,6 +12,7 @@ import java.time.LocalTime;
 
 @Getter
 @Entity
+@Table(name = "RESERVATION")
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor

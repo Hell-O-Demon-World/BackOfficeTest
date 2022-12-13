@@ -10,6 +10,19 @@ public enum RoomType {
     }
 
     public String getDescription() {
-        return description;
+        return description.toUpperCase();
+    }
+
+    public static RoomType getRoomType(String beforeRoomType) {
+        int count = 0;
+        for (RoomType room : RoomType.values()) {
+            if (!beforeRoomType.toUpperCase().equals(room.name())) {
+                count++;
+            }
+        }
+        if (count == RoomType.values().length) {
+            throw new RuntimeException("RoomType IO Exception::: Not Exist RoomType");
+        }
+        return RoomType.valueOf(beforeRoomType.toUpperCase());
     }
 }

@@ -1,10 +1,10 @@
 package com.golfzonaca.backoffice.domain.type;
 
-public enum PayType {
-    DEPOSIT("보증금"), BALANCE("잔금"), FULL_PAYMENT("전체 결제");
+public enum PayWay {
+    PREPAYMENT("선결제"), POSTPAYMENT("현장결제");
     private final String description;
 
-    PayType(String description) {
+    PayWay(String description) {
         this.description = description;
     }
 

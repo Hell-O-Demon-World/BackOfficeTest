@@ -1,10 +1,10 @@
 package com.golfzonaca.backoffice.domain.type;
 
-public enum PayType {
-    DEPOSIT("보증금"), BALANCE("잔금"), FULL_PAYMENT("전체 결제");
+public enum PG {
+    KAKAOPAY("카카오페이"), NICEPAY("나이스페이");
     private final String description;
 
-    PayType(String description) {
+    PG(String description) {
         this.description = description;
     }
 

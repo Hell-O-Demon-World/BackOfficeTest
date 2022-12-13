@@ -43,7 +43,7 @@ public class QueryReservationRepository {
         return query
                 .selectFrom(reservation)
                 .where(likeRoomId(roomId), likeId(String.valueOf(reservationId)))
-                .fetchOne();
+                .fetchFirst();
     }
 
     public List<Reservation> findByCondition(Long roomId, ReservationSearchCond data) {
@@ -69,7 +69,7 @@ public class QueryReservationRepository {
 
     private BooleanExpression likeId(String id) {
         if (StringUtils.hasText(id)) {
-            return reservation.id.like(id);
+            return reservation.id.eq(Long.parseLong(id));
         }
         return null;
     }

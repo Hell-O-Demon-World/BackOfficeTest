@@ -18,8 +18,8 @@ public class ReservationRepository {
     private final JpaReservationRepository jpaRepository;
     private final QueryReservationRepository queryRepository;
 
-    public Reservation findById(Long placeId, Long reservationId) {
-        return queryRepository.findByIdAndPlaceId(placeId, reservationId);
+    public Reservation findById(Long reservationId) {
+        return jpaRepository.findFirstById(reservationId).orElseThrow(()-> new RuntimeException("예약이 없습니다."));
     }
 
     public List<Reservation> findByPlaceIdAndPeriod(Long placeId, LocalDate startDate, LocalDate endDate) {
