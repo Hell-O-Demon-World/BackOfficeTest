@@ -19,13 +19,19 @@ import com.golfzonaca.backoffice.web.controller.signin.dto.SignInDto;
 import com.golfzonaca.backoffice.web.controller.typeconverter.DataTypeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -72,14 +78,13 @@ public class PlaceController {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
-        if (placeList.contains(placeId)) {
+        Place place = placeService.findById(placeId);
+        if (!placeList.contains(place)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
         } else {
-            Place place = placeService.findById(placeId);
             Map<String, Integer> roomQuantity = placeService.calculateRoomQuantity(place);
-
             PlaceDetailDto placeDetailDto = new PlaceDetailDto(place.getId(), place.getPlaceName(), place.getDescription(), DataTypeFormatter.stringToList(place.getOpenDays()), place.getPlaceStart().toString(), place.getPlaceEnd().toString(), DataTypeFormatter.stringToList(place.getPlaceAddInfo()), place.getAddress().getAddress(), place.getAddress().getPostalCode(), roomQuantity);
             model.addAttribute("DaysType", daysType());
             model.addAttribute("AddInfoType", addInfoType());
@@ -98,12 +103,13 @@ public class PlaceController {
 
     @Transactional
     @PostMapping("/add")
-    public String addPlace(@ModelAttribute PlaceAddDto placeAddDto, AddressDto addressDto, RedirectAttributes redirectAttributes, Authentication authentication) throws IOException {
+    public String addPlace(HttpServletRequest request, @ModelAttribute PlaceAddDto placeAddDto, HttpSession session, AddressDto addressDto, RedirectAttributes redirectAttributes, Authentication authentication) throws IOException {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         Place place = placeService.save(placeAddDto, addressDto, company);
         redirectAttributes.addAttribute("id", place.getId());
         redirectAttributes.addAttribute("status", true);
+
         return "redirect:/places/{id}";
     }
 
@@ -112,14 +118,14 @@ public class PlaceController {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
-        if (placeList.contains(placeId)) {
+        Place findPlace = placeService.findById(placeId);
+        if (!placeList.contains(findPlace)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
         } else {
-            Place place = placeService.findById(placeId);
-            Map<String, Integer> roomQuantity = placeService.calculateRoomQuantity(place);
-            PlaceDetailDto placeDetailDto = new PlaceDetailDto(place.getId(), place.getPlaceName(), place.getDescription(), DataTypeFormatter.stringToList(place.getOpenDays()), place.getPlaceStart().toString(), place.getPlaceEnd().toString(), DataTypeFormatter.stringToList(place.getPlaceAddInfo()), place.getAddress().getAddress(), place.getAddress().getPostalCode(), roomQuantity);
+            Map<String, Integer> roomQuantity = placeService.calculateRoomQuantity(findPlace);
+            PlaceDetailDto placeDetailDto = new PlaceDetailDto(findPlace.getId(), findPlace.getPlaceName(), findPlace.getDescription(), DataTypeFormatter.stringToList(findPlace.getOpenDays()), findPlace.getPlaceStart().toString(), findPlace.getPlaceEnd().toString(), DataTypeFormatter.stringToList(findPlace.getPlaceAddInfo()), findPlace.getAddress().getAddress(), findPlace.getAddress().getPostalCode(), roomQuantity);
             model.addAttribute("place", placeDetailDto);
             return "place/editForm";
         }
@@ -131,7 +137,7 @@ public class PlaceController {
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
         Place findPlace = placeService.findById(placeId);
-        if (placeList.contains(findPlace)) {
+        if (!placeList.contains(findPlace)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
@@ -148,7 +154,7 @@ public class PlaceController {
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
         Place findPlace = placeService.findById(placeId);
-        if (placeList.contains(findPlace)) {
+        if (!placeList.contains(findPlace)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
@@ -158,7 +164,7 @@ public class PlaceController {
         }
     }
 
-    @GetMapping("/sign-out")
+    @GetMapping("/signout")
     public String signOut(Model model) {
         SignInDto signInDto = new SignInDto();
         model.addAttribute(signInDto);

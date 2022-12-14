@@ -40,7 +40,7 @@ public class ReservationController {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
-        if (placeList.contains(placeId)) {
+        if (!placeList.contains(placeId)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
@@ -59,7 +59,7 @@ public class ReservationController {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
-        if (placeList.contains(placeId)) {
+        if (!placeList.contains(placeId)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
