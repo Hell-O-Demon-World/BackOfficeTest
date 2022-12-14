@@ -44,12 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.formLogin()
-                .loginPage("/signin").permitAll()
+                .loginPage("/signin")
+                .permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/").hasAnyRole();
+                .antMatchers("/**").hasRole("REGISTER");
         http.addFilterAt(jsonIdPwAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter, JsonIdPwAuthenticationProcessingFilter.class);
         http.userDetailsService(userDetailsService());
