@@ -40,4 +40,8 @@ public class PlaceRepository {
     public void delete(Place place) {
         jpaRepository.delete(place);
     }
+
+    public Place findByCompanyId(Long companyId) {
+        return jpaRepository.findFirstByCompanyId(companyId).orElseThrow(()-> new RuntimeException("존재하지 않는 place 입니다."));
+    }
 }

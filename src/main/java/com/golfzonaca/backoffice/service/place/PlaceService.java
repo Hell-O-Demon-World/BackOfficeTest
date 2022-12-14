@@ -1,6 +1,5 @@
 package com.golfzonaca.backoffice.service.place;
 
-import com.golfzonaca.backoffice.auth.token.JwtRepository;
 import com.golfzonaca.backoffice.domain.*;
 import com.golfzonaca.backoffice.domain.type.RoomType;
 import com.golfzonaca.backoffice.repository.address.AddressRepository;
@@ -29,14 +28,13 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
     private final CompanyRepository companyRepository;
-    private final JwtRepository jwtRepository;
     private final AddressRepository addressRepository;
     private final RatePointRepository ratePointRepository;
     private final RoomService roomService;
     private final ImageService imageService;
 
-    public Place save(PlaceAddDto placeAddDto, AddressDto addressDto) {
-        Company company = companyRepository.findById(jwtRepository.getUserId());
+    public Place save(PlaceAddDto placeAddDto, AddressDto addressDto, Long userId) {
+        Company company = companyRepository.findById(userId);
         Address address = addressRepository.save(new Address(addressDto.getAddress(), addressDto.getPostalCode()));
         RatePoint ratePoint = ratePointRepository.save(new RatePoint(0F));
         Place place = placeRepository.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
@@ -105,5 +103,9 @@ public class PlaceService {
             roomQuantity.put(roomType.getDescription(), count);
         }
         return roomQuantity;
+    }
+
+    public Place findByCompanyId(Long companyId) {
+        return placeRepository.findByCompanyId(companyId);
     }
 }

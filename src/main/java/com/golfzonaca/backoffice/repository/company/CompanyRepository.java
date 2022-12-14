@@ -20,6 +20,5 @@ public class CompanyRepository {
 
     public Company findByLoginId(String loginId) {
         return jpaRepository.findByLoginId(loginId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 계정입니다."));
-//        return queryRepository.findByLoginId(loginId);
     }
 }

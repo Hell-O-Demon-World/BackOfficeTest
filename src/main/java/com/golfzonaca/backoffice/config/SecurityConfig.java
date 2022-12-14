@@ -3,7 +3,6 @@ package com.golfzonaca.backoffice.config;
 import com.golfzonaca.backoffice.auth.filter.JsonIdPwAuthenticationProcessingFilter;
 import com.golfzonaca.backoffice.auth.filter.JwtAuthenticationFilter;
 import com.golfzonaca.backoffice.auth.provider.IdPwAuthenticationProvider;
-import com.golfzonaca.backoffice.auth.token.JwtRepository;
 import com.golfzonaca.backoffice.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthService authService;
-    private final JwtRepository jwtRepository;
     private static final RequestMatcher LOGIN_REQUEST_MATCHER = new AntPathRequestMatcher("/signin", "POST");
 
     @Bean
@@ -43,13 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.formLogin()
                 .loginPage("/signin")
                 .permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasRole("REGISTER");
+                .antMatchers("/places/token/**").permitAll()
+                .antMatchers("/places/**").hasRole("REGISTER");
         http.addFilterAt(jsonIdPwAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter, JsonIdPwAuthenticationProcessingFilter.class);
         http.userDetailsService(userDetailsService());
@@ -57,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(new IdPwAuthenticationProvider(authService, passwordEncoder(), jwtRepository));
+        auth.authenticationProvider(new IdPwAuthenticationProvider(authService, passwordEncoder()));
     }
 
 }
