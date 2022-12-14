@@ -1,10 +1,8 @@
-package com.golfzonaca.backoffice.web.controller.reservation.dto;
+package com.golfzonaca.backoffice.service.place.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,6 +14,8 @@ public class ReservationDto {
     private String userEmail;
     private Long roomId;
     private String roomType;
-    private LocalDateTime startDateTime;
-    private LocalDateTime endDateTime;
+    private String startDateTime;
+    private String endDateTime;
+    private String resStatus;
+    private String fixStatus;
 }

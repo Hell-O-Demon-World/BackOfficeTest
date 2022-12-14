@@ -49,7 +49,7 @@ public class QueryReservationRepository {
     public List<Reservation> findByCondition(Long roomId, ReservationSearchCond data) {
         return query
                 .selectFrom(reservation)
-                .where(likeRoomId(roomId), likeId(data.getSearchWord()).or(likeUserName(data.getSearchWord())).or(likeUserEmail(data.getSearchWord())))
+                .where(likeRoomId(roomId), (likeUserName(data.getSearchWord())).or(likeUserEmail(data.getSearchWord())))
                 .fetch();
     }
 

@@ -1,6 +1,8 @@
 package com.golfzonaca.backoffice.domain;
 
 
+import com.golfzonaca.backoffice.domain.type.FixStatus;
+import com.golfzonaca.backoffice.domain.type.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,14 +44,23 @@ public class Reservation {
     @Column(name = "RES_ENDTIME", nullable = false)
     private LocalTime resEndTime;
 
+    @Column(name = "RES_STATUS", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus resStatus;
 
-    public Reservation(User user, Room room, LocalDate resStartDate, LocalTime resStartTime, LocalDate resEndDate, LocalTime resEndTime) {
+    @Column(name = "FIX_STATUS", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private FixStatus fixStatus;
+
+    public Reservation(User user, Room room, LocalDate resStartDate, LocalTime resStartTime, LocalDate resEndDate, LocalTime resEndTime, ReservationStatus resStatus, FixStatus fixStatus) {
         this.user = user;
         this.room = room;
         this.resStartDate = resStartDate;
         this.resStartTime = resStartTime;
         this.resEndDate = resEndDate;
         this.resEndTime = resEndTime;
+        this.resStatus = resStatus;
+        this.fixStatus = fixStatus;
     }
 
     public Reservation toEntity() {

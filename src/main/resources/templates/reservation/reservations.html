@@ -16,7 +16,7 @@
     <form th:object="${reservationSearch}" method="get" class="form-inline">
         <div class="row">
             <div class="col">
-                <input type="text" th:field="*{searchWord}" class="form-control" placeholder="예약 번호, 이름, 이메일로 검색하세요."/>
+                <input type="text" th:field="*{searchWord}" class="form-control" placeholder="예약자 이름, 이메일로 검색하세요."/>
             </div>
             <div class="col">
                 <button type="submit" class="btn btn-secondary mb-2">검색</button>
@@ -60,7 +60,7 @@
                 <td th:text="${reservation.value.roomType}">데스크</td>
                 <td th:text="${reservation.value.startDateTime}">2022-07-25 09:00</td>
                 <td th:text="${reservation.value.endDateTime}">2022-12-29 17:50</td>
-                <td>
+                <td th:if="${reservation.value.resStatus.equals('PROGRESSING') && reservation.value.fixStatus.equals('UNFIXED')}">
                     <button class="btn btn-primary float-end" style="float: left!important;"
                             onclick="location.href='reservations.html'"
                             th:onclick="|location.href='@{/{placeId}/reservations/{reservationId}/cancel(placeId=${placeId}, reservationId=${reservation.value.id})}'|"
