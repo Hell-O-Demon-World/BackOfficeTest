@@ -51,8 +51,9 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
                     .build();
             companyTokenRepository.save(companyAccessToken);
         }
-        SecurityContextHolder.setContext(new SecurityContextImpl(authentication));
-        response.setHeader("Authorization", jwtEncoded);
-        redirectStrategy.sendRedirect(request, response, "/places/token/"+jwtEncoded);
+//        SecurityContextHolder.setContext(new SecurityContextImpl(authentication));
+//        response.setHeader("Authorization", jwtEncoded);
+//        redirectStrategy.sendRedirect(request, response, "/places/token/"+jwtEncoded);
+        redirectStrategy.sendRedirect(request, response, "/places");
     }
 }

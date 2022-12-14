@@ -31,4 +31,8 @@ public class RoomRepository {
     public void delete(Room room) {
         jpaRepository.delete(room);
     }
+
+    public Room findByPlaceId(Long placeId) {
+        return jpaRepository.findFirstByPlaceId(placeId).orElseThrow(()-> new NoSuchElementException("존재하지 않는 사무공간 입니다."));
+    }
 }

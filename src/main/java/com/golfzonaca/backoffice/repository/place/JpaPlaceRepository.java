@@ -6,10 +6,11 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Transactional
 public interface JpaPlaceRepository extends JpaRepository<Place, Long> {
-    Optional<Place> findFirstByCompanyId(Long companyId);
+    List<Place> findAllByCompanyId(Long companyId);
 }

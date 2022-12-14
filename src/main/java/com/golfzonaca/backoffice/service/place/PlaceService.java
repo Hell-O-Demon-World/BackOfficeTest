@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,8 +34,7 @@ public class PlaceService {
     private final RoomService roomService;
     private final ImageService imageService;
 
-    public Place save(PlaceAddDto placeAddDto, AddressDto addressDto, Long userId) {
-        Company company = companyRepository.findById(userId);
+    public Place save(PlaceAddDto placeAddDto, AddressDto addressDto, Company company) {
         Address address = addressRepository.save(new Address(addressDto.getAddress(), addressDto.getPostalCode()));
         RatePoint ratePoint = ratePointRepository.save(new RatePoint(0F));
         Place place = placeRepository.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
@@ -105,7 +105,7 @@ public class PlaceService {
         return roomQuantity;
     }
 
-    public Place findByCompanyId(Long companyId) {
+    public List<Place> findByCompanyId(Long companyId) {
         return placeRepository.findByCompanyId(companyId);
     }
 }

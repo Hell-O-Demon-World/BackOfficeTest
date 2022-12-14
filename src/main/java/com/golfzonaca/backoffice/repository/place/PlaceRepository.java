@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Repository
@@ -41,7 +42,7 @@ public class PlaceRepository {
         jpaRepository.delete(place);
     }
 
-    public Place findByCompanyId(Long companyId) {
-        return jpaRepository.findFirstByCompanyId(companyId).orElseThrow(()-> new RuntimeException("존재하지 않는 place 입니다."));
+    public List<Place> findByCompanyId(Long companyId) {
+        return jpaRepository.findAllByCompanyId(companyId);
     }
 }

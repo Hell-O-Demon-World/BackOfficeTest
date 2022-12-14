@@ -54,4 +54,8 @@ public class RoomService {
         }
         return roomKindList;
     }
+
+    public Room findByPlaceId(Long placeId) {
+        return roomRepository.findByPlaceId(placeId);
+    }
 }
