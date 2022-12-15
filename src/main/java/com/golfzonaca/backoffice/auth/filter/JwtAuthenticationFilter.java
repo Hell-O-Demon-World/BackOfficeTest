@@ -32,27 +32,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String jwt = request.getHeader("Authorization");
         String path = request.getServletPath();
-
-//        if (jwt != null && JwtManager.validateJwt(jwt)) {
-////            String[] pathParts = path.split("/");
-////
-//            Long companyId = JwtManager.getIdByToken(jwt);
-//            String loginId = companyService.findById(companyId).getLoginId();
-////            Long placeId = placeService.findByCompanyId(companyId).getId();
-////            for (int i = 0; i < pathParts.length; i++) {
-////                System.out.println("pathParts = " + pathParts[i]);
-////
-////            }
-////            System.out.println("pathParts[2] = " + pathParts[2]);
-////            System.out.println("findPlaceId = " + placeId);
-////            if (Long.parseLong(pathParts[2]) == placeId) {
-//                Authentication authentication = getAuthentication(loginId);
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-////            }
+//        if (path.equals("/signout")) {
+//
 //        }
-
         filterChain.doFilter(request, response);
     }
 
