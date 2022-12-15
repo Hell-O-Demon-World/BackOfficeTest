@@ -38,22 +38,7 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        Company findCompany = companyRepository.findByLoginId(authentication.getPrincipal().toString());
-        Jwt accessJwt = JwtManager.createAccessJwt(findCompany.getId());
-        String jwtEncoded = accessJwt.getEncoded();
-        if (companyTokenRepository.isExistByCompany(findCompany)) {
-            CompanyAccessToken findAccessToken = companyTokenRepository.findAccessTokenByCompany(findCompany);
-            findAccessToken.setAccessToken(jwtEncoded);
-        } else {
-            CompanyAccessToken companyAccessToken = CompanyAccessToken.builder()
-                    .accessToken(jwtEncoded)
-                    .company(findCompany)
-                    .build();
-            companyTokenRepository.save(companyAccessToken);
-        }
-//        SecurityContextHolder.setContext(new SecurityContextImpl(authentication));
-//        response.setHeader("Authorization", jwtEncoded);
-//        redirectStrategy.sendRedirect(request, response, "/places/token/"+jwtEncoded);
+
         redirectStrategy.sendRedirect(request, response, "/places");
     }
 }

@@ -2,12 +2,10 @@ package com.golfzonaca.backoffice.web.controller.place;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.golfzonaca.backoffice.domain.Company;
-import com.golfzonaca.backoffice.domain.CompanyAccessToken;
 import com.golfzonaca.backoffice.domain.Place;
 import com.golfzonaca.backoffice.domain.type.AddInfoType;
 import com.golfzonaca.backoffice.domain.type.DaysType;
 import com.golfzonaca.backoffice.domain.type.RoomType;
-import com.golfzonaca.backoffice.repository.company.CompanyTokenRepository;
 import com.golfzonaca.backoffice.service.address.AddressService;
 import com.golfzonaca.backoffice.service.company.CompanyService;
 import com.golfzonaca.backoffice.service.place.PlaceService;
@@ -19,19 +17,13 @@ import com.golfzonaca.backoffice.web.controller.signin.dto.SignInDto;
 import com.golfzonaca.backoffice.web.controller.typeconverter.DataTypeFormatter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.WebUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +37,6 @@ public class PlaceController {
     private final CompanyService companyService;
     private final PlaceService placeService;
     private final AddressService addressService;
-    private final CompanyTokenRepository companyTokenRepository;
 
     @ModelAttribute("DaysType")
     public DaysType[] daysType() {
@@ -103,7 +94,7 @@ public class PlaceController {
 
     @Transactional
     @PostMapping("/add")
-    public String addPlace(HttpServletRequest request, @ModelAttribute PlaceAddDto placeAddDto, HttpSession session, AddressDto addressDto, RedirectAttributes redirectAttributes, Authentication authentication) throws IOException {
+    public String addPlace(@ModelAttribute PlaceAddDto placeAddDto, AddressDto addressDto, RedirectAttributes redirectAttributes, Authentication authentication) throws IOException {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         Place place = placeService.save(placeAddDto, addressDto, company);

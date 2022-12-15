@@ -2,6 +2,7 @@ package com.golfzonaca.backoffice.config;
 
 import com.golfzonaca.backoffice.auth.filter.JsonIdPwAuthenticationProcessingFilter;
 import com.golfzonaca.backoffice.auth.filter.JwtAuthenticationFilter;
+import com.golfzonaca.backoffice.auth.filter.CustomLogoutHandler;
 import com.golfzonaca.backoffice.auth.provider.IdPwAuthenticationProvider;
 import com.golfzonaca.backoffice.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +26,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthService authService;
-    private static final RequestMatcher LOGIN_REQUEST_MATCHER = new AntPathRequestMatcher("/signin", "POST");
+    private final CustomLogoutHandler customLogoutHandler;
 
+    private static final RequestMatcher LOGIN_REQUEST_MATCHER = new AntPathRequestMatcher("/signin", "POST");
     @Bean
     public PasswordEncoder passwordEncoder() {  // passwordEncoder라는 인터페이스를 BcryptPasswordEncoder가 implement 하기 떄문에 new 가능!
         return new BCryptPasswordEncoder();
@@ -39,10 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         jsonAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
         return jsonAuthenticationFilter;
     }
+
     @Bean
     public HttpSessionEventPublisher httpSessionEventPublisher() {
         return new HttpSessionEventPublisher();
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -54,8 +58,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/places/token/**","/places/add/**").permitAll()
-                .antMatchers("/**").hasRole("REGISTER");
+                .antMatchers("/places/token/**", "/places/add/**").permitAll()
+                .antMatchers("/**").hasRole("REGISTER")
+                .and()
+                .logout(logout -> logout
+                        .logoutUrl("/signout")
+                        .logoutSuccessUrl("/signin")
+                        .invalidateHttpSession(true)
+                        .addLogoutHandler(customLogoutHandler)
+                        .deleteCookies("JSESSIONID"));
         http.addFilterAt(jsonIdPwAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter, JsonIdPwAuthenticationProcessingFilter.class);
         http.userDetailsService(userDetailsService());
