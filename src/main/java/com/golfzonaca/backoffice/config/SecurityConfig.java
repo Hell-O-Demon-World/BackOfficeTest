@@ -2,7 +2,6 @@ package com.golfzonaca.backoffice.config;
 
 import com.golfzonaca.backoffice.auth.filter.JsonIdPwAuthenticationProcessingFilter;
 import com.golfzonaca.backoffice.auth.filter.JwtAuthenticationFilter;
-import com.golfzonaca.backoffice.auth.filter.CustomLogoutHandler;
 import com.golfzonaca.backoffice.auth.provider.IdPwAuthenticationProvider;
 import com.golfzonaca.backoffice.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthService authService;
-    private final CustomLogoutHandler customLogoutHandler;
 
     private static final RequestMatcher LOGIN_REQUEST_MATCHER = new AntPathRequestMatcher("/signin", "POST");
     @Bean
@@ -65,7 +63,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .logoutUrl("/signout")
                         .logoutSuccessUrl("/signin")
                         .invalidateHttpSession(true)
-                        .addLogoutHandler(customLogoutHandler)
                         .deleteCookies("JSESSIONID"));
         http.addFilterAt(jsonIdPwAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter, JsonIdPwAuthenticationProcessingFilter.class);

@@ -155,10 +155,10 @@ public class PlaceController {
         }
     }
 
-    @GetMapping("/signout")
-    public String signOut(Model model) {
-        SignInDto signInDto = new SignInDto();
-        model.addAttribute(signInDto);
-        return "login/loginForm";
-    }
+//    @GetMapping("/signout")
+//    public String signOut(Model model) {
+//        SignInDto signInDto = new SignInDto();
+//        model.addAttribute(signInDto);
+//        return "login/loginForm";
+//    }
 }

@@ -17,11 +17,9 @@
             <h4 th:text="${companyLoginId}">업체로그인아이디</h4>
         </div>
         <div class="col">
-            <button class="btn btn-primary float-end"
-                    style="float: left!important;"
-                    th:onclick="|location.href='@{/places/signout}'|"
-                    type="button">로그아웃
-            </button>
+            <form method="post" action="/signout" style="float: left!important;">
+                <input type="submit" value="로그아웃">
+            </form>
         </div>
         <div class="col">
 
