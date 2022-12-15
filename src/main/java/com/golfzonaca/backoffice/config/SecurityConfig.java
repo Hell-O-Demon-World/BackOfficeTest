@@ -1,7 +1,7 @@
 package com.golfzonaca.backoffice.config;
 
 import com.golfzonaca.backoffice.auth.filter.JsonIdPwAuthenticationProcessingFilter;
-import com.golfzonaca.backoffice.auth.filter.JwtAuthenticationFilter;
+import com.golfzonaca.backoffice.auth.filter.SessionAuthenticationFilter;
 import com.golfzonaca.backoffice.auth.provider.IdPwAuthenticationProvider;
 import com.golfzonaca.backoffice.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final SessionAuthenticationFilter sessionAuthenticationFilter;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthService authService;
 
@@ -65,7 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID"));
         http.addFilterAt(jsonIdPwAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter, JsonIdPwAuthenticationProcessingFilter.class);
+        http.addFilterBefore(sessionAuthenticationFilter, JsonIdPwAuthenticationProcessingFilter.class);
         http.userDetailsService(userDetailsService());
     }
 

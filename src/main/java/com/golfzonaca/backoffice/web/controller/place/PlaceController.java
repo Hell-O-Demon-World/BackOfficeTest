@@ -154,11 +154,4 @@ public class PlaceController {
             return "redirect:/places";
         }
     }
-
-//    @GetMapping("/signout")
-//    public String signOut(Model model) {
-//        SignInDto signInDto = new SignInDto();
-//        model.addAttribute(signInDto);
-//        return "login/loginForm";
-//    }
 }

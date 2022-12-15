@@ -33,12 +33,12 @@ public class ReservationController {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
-        if (!placeList.contains(placeId)) {
+        Place place = placeService.findById(placeId);
+        if (!placeList.contains(place)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
         } else {
-            Place place = placeService.findById(placeId);
             Map<Integer, ReservationDto> reservationDtoMap = reservationService.processReservationData(place, searchData);
             model.addAttribute("placeId", placeId);
             model.addAttribute("placeName", place.getPlaceName());
@@ -53,7 +53,8 @@ public class ReservationController {
         String username = authentication.getPrincipal().toString();
         Company company = companyService.findByLoginId(username);
         List<Place> placeList = placeService.findByCompanyId(company.getId());
-        if (!placeList.contains(placeId)) {
+        Place place = placeService.findById(placeId);
+        if (!placeList.contains(place)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
             return "login/loginForm";
