@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Repository
@@ -32,12 +33,16 @@ public class PlaceRepository {
         place.updateOpenDays(data.getPlaceOpenDays().toString());
         place.updatePlaceStart(TimeFormatter.toLocalTime(data.getPlaceStart()));
         place.updatePlaceEnd(TimeFormatter.toLocalTime(data.getPlaceEnd()));
-        place.updateAddress(new Address(data.getAddress(), data.getPostalCode()));
+        place.updateAddress(new Address(data.getAddress(), data.getPostalCode(), 0D, 0D));
         place.updatePlaceAddInfo(data.getPlaceAddInfo().toString());
         return place;
     }
 
     public void delete(Place place) {
         jpaRepository.delete(place);
+    }
+
+    public List<Place> findByCompanyId(Long companyId) {
+        return jpaRepository.findAllByCompanyId(companyId);
     }
 }

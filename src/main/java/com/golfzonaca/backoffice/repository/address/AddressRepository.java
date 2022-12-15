@@ -24,7 +24,7 @@ public class AddressRepository {
     }
 
     public void update(Address address, AddressUpdateDto data) {
-        address.updateAddress(data.getPostalCode(), data.getAddress());
+        address.updateAddress(data.getPostalCode(), data.getAddress(), 0D, 0D);
     }
 
     public void delete(Address address) {
