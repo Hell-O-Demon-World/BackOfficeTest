@@ -100,7 +100,7 @@ public class PlaceService {
         place.updateOpenDays(data.getPlaceOpenDays().toString());
         place.updatePlaceStart(TimeFormatter.toLocalTime(data.getPlaceStart()));
         place.updatePlaceEnd(TimeFormatter.toLocalTime(data.getPlaceEnd()));
-        place.updateAddress(new Address(data.getAddress(), data.getPostalCode(), coordinate.get("lng"), coordinate.get("lat")));
+        place.getAddress().updateAddress(data.getPostalCode(), data.getAddress(), coordinate.get("lng"), coordinate.get("lat"));
         place.updatePlaceAddInfo(data.getPlaceAddInfo().toString());
         return place;
     }
