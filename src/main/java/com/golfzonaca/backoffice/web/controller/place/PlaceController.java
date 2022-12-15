@@ -2,7 +2,6 @@ package com.golfzonaca.backoffice.web.controller.place;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.golfzonaca.backoffice.domain.Company;
-import com.golfzonaca.backoffice.domain.CompanyAccessToken;
 import com.golfzonaca.backoffice.domain.Place;
 import com.golfzonaca.backoffice.domain.type.AddInfoType;
 import com.golfzonaca.backoffice.domain.type.DaysType;
@@ -136,7 +135,7 @@ public class PlaceController {
             model.addAttribute(signInDto);
             return "login/loginForm";
         } else {
-            placeService.update(placeService.findById(placeId), placeEditDto);
+            placeService.update(placeId, placeEditDto);
             return "redirect:/places/{placeId}";
         }
     }
