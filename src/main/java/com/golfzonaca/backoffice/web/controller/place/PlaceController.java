@@ -133,7 +133,7 @@ public class PlaceController {
             model.addAttribute(signInDto);
             return "login/loginForm";
         } else {
-            placeService.update(placeService.findById(placeId), placeEditDto);
+            placeService.update(placeId, placeEditDto);
             return "redirect:/places/{placeId}";
         }
     }

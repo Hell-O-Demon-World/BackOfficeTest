@@ -1,9 +1,6 @@
 package com.golfzonaca.backoffice.repository.place;
 
-import com.golfzonaca.backoffice.domain.Address;
 import com.golfzonaca.backoffice.domain.Place;
-import com.golfzonaca.backoffice.web.controller.place.dto.PlaceEditDto;
-import com.golfzonaca.backoffice.web.controller.typeconverter.TimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,17 +22,6 @@ public class PlaceRepository {
 
     public Place findById(Long id) {
         return jpaRepository.findById(id).orElseThrow(() -> new NoSuchElementException("존재하지 않는 공간입니다."));
-    }
-
-    public Place update(Place place, PlaceEditDto data) {
-        place.updatePlaceName(data.getPlaceName());
-        place.updateDescription(data.getPlaceDescription());
-        place.updateOpenDays(data.getPlaceOpenDays().toString());
-        place.updatePlaceStart(TimeFormatter.toLocalTime(data.getPlaceStart()));
-        place.updatePlaceEnd(TimeFormatter.toLocalTime(data.getPlaceEnd()));
-        place.updateAddress(new Address(data.getAddress(), data.getPostalCode(), 0D, 0D));
-        place.updatePlaceAddInfo(data.getPlaceAddInfo().toString());
-        return place;
     }
 
     public void delete(Place place) {
