@@ -62,7 +62,7 @@
         <div>
             <label for="placeDescription" th:text="#{label.place.placeDescription}">사무공간 설명</label>
             <input type="text" id="placeDescription" th:field="${place.placeDescription}" name="placeDescription"
-                   class="form-control" placeholder="공간 설명을 입력하세요">
+                   class="form-control" placeholder="공간 설명을 입력하세요" th:maxlength="50">
         </div>
         <div>
             <label for="postalCode">우편 번호</label>

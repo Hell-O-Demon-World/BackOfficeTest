@@ -5,6 +5,7 @@ import com.golfzonaca.backoffice.domain.Place;
 import com.golfzonaca.backoffice.domain.PlaceImage;
 import com.golfzonaca.backoffice.domain.RoomImage;
 import com.golfzonaca.backoffice.domain.RoomKind;
+import com.golfzonaca.backoffice.exception.FileConvertFailException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +65,7 @@ public class S3ImageUploader {
         }
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
-        File file = convert(multipartFile, storeFileName).orElseThrow(() -> new NoSuchElementException("파일 변환에 실패하였습니다."));
+        File file = convert(multipartFile, storeFileName).orElseThrow(() -> new FileConvertFailException("파일 변환에 실패하였습니다."));
         amazonS3Client.putObject(bucket, place.getId().toString() + "/" + roomKind.getRoomType() + "/" + file.getName(), file);
         String fullPath = getUrl(place.getId().toString() + "/" + roomKind.getRoomType() + "/" + file.getName());
         file.delete();

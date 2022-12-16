@@ -4,6 +4,7 @@ import com.golfzonaca.backoffice.domain.Place;
 import com.golfzonaca.backoffice.domain.PlaceImage;
 import com.golfzonaca.backoffice.domain.RoomImage;
 import com.golfzonaca.backoffice.domain.RoomKind;
+import com.golfzonaca.backoffice.exception.FileUploadFailureException;
 import com.golfzonaca.backoffice.repository.image.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class ImageService {
                 imageRepository.savePlaceImage(placeImage);
             }
         } catch (IOException e) {
-            throw new RuntimeException("공간 이미지 업로드에 실패하였습니다.");
+            throw new FileUploadFailureException("공간 이미지 업로드에 실패하였습니다.");
         }
     }
 
@@ -38,7 +39,7 @@ public class ImageService {
                 imageRepository.saveRoomImage(roomImage);
             }
         } catch (IOException e) {
-            throw new RuntimeException("사무공간 이미지 업로드에 실패하였습니다.");
+            throw new FileUploadFailureException("사무공간 이미지 업로드에 실패하였습니다.");
         }
     }
 }
