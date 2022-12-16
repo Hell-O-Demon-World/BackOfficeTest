@@ -23,7 +23,6 @@ public class JsonIdPwAuthenticationProcessingFilter extends AbstractAuthenticati
 
         if (!request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
-
         }
         String id = request.getParameter("id");
         String pw = request.getParameter("pw");
