@@ -1,0 +1,37 @@
+### AWS S3 Server ###
+cloud:
+  aws:
+    credentials:
+      accessKey: ENC(vjVwjIVagaHg3yLooyPGpcf9vxWAOU52stO28+U0l+k=)
+      secretKey: ENC(6V04gKV8csUtx+ZgKYpUtHLkPrbz3sEJHaVbVsUSRiFD9BtJcrtClCSalzfR9F7nw85iS7hCxUk=)
+    s3:
+      bucket: ENC(MQyyPOcgHYBcYb4KGMXsPc3hqnZ5UVIhdzM7xOfBQIJq6L9ytcdfi4lS4AiprzN3)
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+### MariaDB Test Server ###
+spring:
+  datasource:
+    url: ENC(L0HeAJ7274IbSXi0FJaeTaoUzoE65jBw9F/ehAMDcq84mwERkeJm8h494FH4GC2TPZKdbZULCp3VvNWFNuojE+PrStMAXVAb)
+    username: ENC(S6hIq9vCoM/O/xT6p4K8CgnyxfwhBXOt)
+    password: ENC(N1B1phOmnCGeLamTtpBol4ibEbQgt7jX)
+
+### MariaDB Release Server ###
+#spring:
+#  datasource:
+#    url: ENC(VukHz4I/AyobpFhnp41mjfVBCl6X6VxOkrbHR6PHHwEtwkMw4xSpGtlc8GYg7y2Zhy4wcwuvTtGVjXD3Adkkxw==)
+#    username: ENC(bGF1QpKuFm1KQzPMGPD8NIvWdoQbbcbJ)
+#    password: ENC(DV0w5wcWRKlfVphaWi8Mb83xOx5rx5Gh)
+### KakaoMap Api Key ###
+kakao:
+  map:
+    apiKey: ENC(r38lxxHEgR2UgVViu+F5a9H8kDhNnX3VXmYE+wdQGi1G6glVcckg1u1kQGknmAGutPwRGYc/o5c=)
+  pay:
+    apiKey: ENC(Oiq00k1vho13Nz70GyjOrIaonf63kChYSluY4x+z8veusNHba13K2GiKnJSNE7BYeI+nBbvLAtg=)
+### Iamport ###
+iamport:
+  api:
+    apiKey: ENC(+yjlM/QkWDDz9poIHmT1BYB3chHUqHS9ii4AG8RoxX4=)
+    apiSecret: ENC(F8WYlyYzWYZUYHB0ludZ1r7S9Xl2wYTB/A9IWESwgqvMTDMiBNN8SiqSpHsDXz70tMhDI6SEGsuKcfVfF/s9eUC1Dp3b5ZeX32mUzmvbbBwKGTRuV46HgWXGlr5LVMbB)
