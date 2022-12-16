@@ -3,6 +3,7 @@ package com.golfzonaca.backoffice.service.place;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.golfzonaca.backoffice.domain.*;
 import com.golfzonaca.backoffice.domain.type.RoomType;
+import com.golfzonaca.backoffice.exception.WrongAddressException;
 import com.golfzonaca.backoffice.repository.address.AddressRepository;
 import com.golfzonaca.backoffice.repository.company.CompanyRepository;
 import com.golfzonaca.backoffice.repository.place.PlaceRepository;
@@ -43,9 +44,9 @@ public class PlaceService {
     private String kakaoMapApiKey;
 
     public Place save(PlaceAddDto placeAddDto, AddressDto addressDto, Company company) {
-        Map<String, Double> coordinate = getCoordinate(addressDto.getAddress());
+        Map<String, String> coordinate = getCoordinate(addressDto.getAddress());
 
-        Address address = addressRepository.save(new Address(addressDto.getAddress(), addressDto.getPostalCode(), coordinate.get("lng"), coordinate.get("lat")));
+        Address address = addressRepository.save(new Address(coordinate.get("roadAddress"), coordinate.get("postalCode"), Double.valueOf(coordinate.get("longitude")), Double.valueOf(coordinate.get("latitude"))));
         RatePoint ratePoint = ratePointRepository.save(new RatePoint(0F));
         Place place = placeRepository.save(new Place(company, ratePoint, placeAddDto.getPlaceName(), placeAddDto.getPlaceDescription(), DataTypeFormatter.listToString(placeAddDto.getPlaceOpenDays()), TimeFormatter.toLocalTime(placeAddDto.getPlaceStart()), TimeFormatter.toLocalTime(placeAddDto.getPlaceEnd()), DataTypeFormatter.listToString(placeAddDto.getPlaceAddInfo()), address));
         Set<RoomKind> roomKindList = roomService.save(place, placeAddDto.getRoomQuantity());
@@ -94,14 +95,14 @@ public class PlaceService {
 
     public Place update(Long placeId, PlaceEditDto data) {
         Place place = placeRepository.findById(placeId);
-        Map<String, Double> coordinate = getCoordinate(data.getAddress());
+        Map<String, String> coordinate = getCoordinate(data.getAddress());
         place.updatePlaceName(data.getPlaceName());
         place.updateDescription(data.getPlaceDescription());
-        place.updateOpenDays(data.getPlaceOpenDays().toString());
+        place.updateOpenDays(DataTypeFormatter.listToString(data.getPlaceOpenDays()));
         place.updatePlaceStart(TimeFormatter.toLocalTime(data.getPlaceStart()));
         place.updatePlaceEnd(TimeFormatter.toLocalTime(data.getPlaceEnd()));
-        place.getAddress().updateAddress(data.getPostalCode(), data.getAddress(), coordinate.get("lng"), coordinate.get("lat"));
-        place.updatePlaceAddInfo(data.getPlaceAddInfo().toString());
+        place.getAddress().updateAddress(coordinate.get("postalCode"), coordinate.get("roadAddress"), Double.valueOf(coordinate.get("longitude")), Double.valueOf(coordinate.get("latitude")));
+        place.updatePlaceAddInfo(DataTypeFormatter.listToString(data.getPlaceAddInfo()));
         return place;
     }
 
@@ -129,8 +130,8 @@ public class PlaceService {
     }
 
 
-    private Map<String, Double> getCoordinate(String address) {
-        Map<String, Double> coordinate = new LinkedHashMap<>();
+    private Map<String, String> getCoordinate(String address) {
+        Map<String, String> coordinate = new LinkedHashMap<>();
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -151,12 +152,20 @@ public class PlaceService {
         Object object = restTemplate.exchange(url, HttpMethod.GET, request, Object.class, params).getBody();
         ObjectMapper objectMapper = new ObjectMapper();
         Map map = objectMapper.convertValue(object, Map.class);
-        List<Map<String, String>> elements = (List<Map<String, String>>) map.get("documents");
-        Map<String, String> coordinateMap = elements.get(0);
-        Double lng = Double.valueOf(coordinateMap.get("x"));
-        Double lat = Double.valueOf(coordinateMap.get("y"));
-        coordinate.put("lng", lng);
-        coordinate.put("lat", lat);
+        List<Map<String, Object>> elements = (List<Map<String, Object>>) map.get("documents");
+        if (elements.isEmpty()) {
+            throw new WrongAddressException("존재하지 않는 주소입니다.");
+        }
+        Map<String, Object> coordinateMap = elements.get(0);
+        Map<String, String> road_address = (Map<String, String>) coordinateMap.get("road_address");
+        String roadAddress = road_address.get("address_name");
+        String postalCode = road_address.get("zone_no");
+        String longitude = road_address.get("x");
+        String latitude = road_address.get("y");
+        coordinate.put("roadAddress", roadAddress);
+        coordinate.put("postalCode", postalCode);
+        coordinate.put("longitude", longitude);
+        coordinate.put("latitude", latitude);
         return coordinate;
     }
 }
