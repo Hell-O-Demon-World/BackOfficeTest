@@ -61,7 +61,7 @@ public class PlaceController {
         model.addAttribute("places", company.getPlaceList());
         model.addAttribute("companyId", company.getId());
         model.addAttribute("companyLoginId", company.getLoginId());
-        return "/place/places";
+        return "place/places";
     }
 
     @GetMapping("/{placeId}")
@@ -73,7 +73,7 @@ public class PlaceController {
         if (!placeList.contains(place)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "/login/loginForm";
+            return "login/loginForm";
         } else {
             Map<String, Integer> roomQuantity = placeService.calculateRoomQuantity(place);
             PlaceDetailDto placeDetailDto = new PlaceDetailDto(place.getId(), place.getPlaceName(), place.getDescription(), DataTypeFormatter.stringToList(place.getOpenDays()), place.getPlaceStart().toString(), place.getPlaceEnd().toString(), DataTypeFormatter.stringToList(place.getPlaceAddInfo()), place.getAddress().getAddress(), place.getAddress().getPostalCode(), roomQuantity);
@@ -81,7 +81,7 @@ public class PlaceController {
             model.addAttribute("AddInfoType", addInfoType());
             model.addAttribute("RoomTypes", roomType());
             model.addAttribute("place", placeDetailDto);
-            return "/place/place";
+            return "place/place";
         }
     }
 
@@ -89,7 +89,7 @@ public class PlaceController {
     public String addForm(Model model) {
         model.addAttribute("place", new PlaceAddDto());
         model.addAttribute("address", new AddressDto());
-        return "/place/addForm";
+        return "place/addForm";
     }
 
     @Transactional
@@ -113,12 +113,12 @@ public class PlaceController {
         if (!placeList.contains(findPlace)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "/login/loginForm";
+            return "login/loginForm";
         } else {
             Map<String, Integer> roomQuantity = placeService.calculateRoomQuantity(findPlace);
             PlaceDetailDto placeDetailDto = new PlaceDetailDto(findPlace.getId(), findPlace.getPlaceName(), findPlace.getDescription(), DataTypeFormatter.stringToList(findPlace.getOpenDays()), findPlace.getPlaceStart().toString(), findPlace.getPlaceEnd().toString(), DataTypeFormatter.stringToList(findPlace.getPlaceAddInfo()), findPlace.getAddress().getAddress(), findPlace.getAddress().getPostalCode(), roomQuantity);
             model.addAttribute("place", placeDetailDto);
-            return "/place/editForm";
+            return "place/editForm";
         }
     }
 
@@ -131,7 +131,7 @@ public class PlaceController {
         if (!placeList.contains(findPlace)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "/login/loginForm";
+            return "login/loginForm";
         } else {
             placeService.update(placeId, placeEditDto);
             return "redirect:/places/{placeId}";
@@ -148,7 +148,7 @@ public class PlaceController {
         if (!placeList.contains(findPlace)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "/login/loginForm";
+            return "login/loginForm";
         } else {
             addressService.delete(placeService.findById(placeId).getAddress());
             return "redirect:/places";

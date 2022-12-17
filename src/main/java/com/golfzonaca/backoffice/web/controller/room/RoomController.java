@@ -45,14 +45,14 @@ public class RoomController {
         if (placeList.contains(placeId)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "/login/loginForm";
+            return "login/loginForm";
         } else {
             Place place = placeService.findById(placeId);
             Map<Integer, RoomDto> rooms = processRoomData(place);
             model.addAttribute("placeName", place.getPlaceName());
             model.addAttribute("placeId", placeId);
             model.addAttribute("rooms", rooms);
-            return "/room/rooms";
+            return "room/rooms";
         }
     }
 
@@ -71,7 +71,7 @@ public class RoomController {
         }
         SignInDto signInDto = new SignInDto();
         model.addAttribute(signInDto);
-        return "/login/loginForm";
+        return "login/loginForm";
     }
 
     @GetMapping("/room/{roomId}/disable")
@@ -89,7 +89,7 @@ public class RoomController {
         }
         SignInDto signInDto = new SignInDto();
         model.addAttribute(signInDto);
-        return "/login/loginForm";
+        return "login/loginForm";
     }
 
     private Map<Integer, RoomDto> processRoomData(Place place) {

@@ -37,13 +37,13 @@ public class ReservationController {
         if (!placeList.contains(place)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "/login/loginForm";
+            return "login/loginForm";
         } else {
             Map<Integer, ReservationDto> reservationDtoMap = reservationService.processReservationData(place, searchData);
             model.addAttribute("placeId", placeId);
             model.addAttribute("placeName", place.getPlaceName());
             model.addAttribute("reservations", reservationDtoMap);
-            return "/reservation/reservations";
+            return "reservation/reservations";
         }
     }
 
@@ -57,7 +57,7 @@ public class ReservationController {
         if (!placeList.contains(place)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "/login/loginForm";
+            return "login/loginForm";
         } else {
             reservationService.cancelReservation(reservationId);
             return "redirect:/{placeId}/reservations";
