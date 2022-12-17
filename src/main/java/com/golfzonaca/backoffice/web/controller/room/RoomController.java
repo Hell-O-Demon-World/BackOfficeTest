@@ -66,7 +66,7 @@ public class RoomController {
             if (place.getRooms().contains(findRoom)) {
                 Room room = roomService.updateStatus(roomId, true);
                 redirectAttributes.addAttribute("placeId", room.getPlace().getId());
-                return "redirect:/{placeId}/rooms";
+                return "redirect:{placeId}/rooms";
             }
         }
         SignInDto signInDto = new SignInDto();
@@ -84,7 +84,7 @@ public class RoomController {
             if (place.getRooms().contains(findRoom)) {
                 Room room = roomService.updateStatus(roomId, false);
                 redirectAttributes.addAttribute("placeId", room.getPlace().getId());
-                return "redirect:/{placeId}/rooms";
+                return "redirect:{placeId}/rooms";
             }
         }
         SignInDto signInDto = new SignInDto();

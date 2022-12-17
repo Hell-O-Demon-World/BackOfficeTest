@@ -60,7 +60,7 @@ public class ReservationController {
             return "login/loginForm";
         } else {
             reservationService.cancelReservation(reservationId);
-            return "redirect:/{placeId}/reservations";
+            return "redirect:{placeId}/reservations";
         }
     }
 }

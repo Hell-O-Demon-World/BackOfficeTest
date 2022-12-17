@@ -101,7 +101,7 @@ public class PlaceController {
         redirectAttributes.addAttribute("id", place.getId());
         redirectAttributes.addAttribute("status", true);
 
-        return "redirect:/places/{id}";
+        return "redirect:places/{id}";
     }
 
     @GetMapping("/{placeId}/edit")
@@ -134,7 +134,7 @@ public class PlaceController {
             return "login/loginForm";
         } else {
             placeService.update(placeId, placeEditDto);
-            return "redirect:/places/{placeId}";
+            return "redirect:places/{placeId}";
         }
     }
 
@@ -151,7 +151,7 @@ public class PlaceController {
             return "login/loginForm";
         } else {
             addressService.delete(placeService.findById(placeId).getAddress());
-            return "redirect:/places";
+            return "redirect:places";
         }
     }
 }
