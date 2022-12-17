@@ -19,7 +19,7 @@ public class SignInController {
     @GetMapping("/signin")
     public String loginForm(@ModelAttribute SignInDto signInDto, Model model) {
         model.addAttribute(signInDto);
-        return "/login/loginForm";
+        return "login/loginForm";
     }
 
     @ResponseBody
