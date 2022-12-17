@@ -29,12 +29,12 @@ public class ProfitController {
         if (!company.getId().equals(companyId)) {
             SignInDto signInDto = new SignInDto();
             model.addAttribute(signInDto);
-            return "login/loginForm";
+            return "/login/loginForm";
         } else {
             Map<Integer, ProfitDto> profit = profitService.calculateProfit(companyId, period);
             model.addAttribute("companyName", companyService.findById(companyId).getName());
             model.addAttribute("places", profit);
-            return "profit/profit";
+            return "/profit/profit";
         }
     }
 }
