@@ -27,7 +27,7 @@ import java.io.IOException;
 public class SessionSuccessHandler implements AuthenticationSuccessHandler {
     private final CompanyRepository companyRepository;
     private final CompanyTokenRepository companyTokenRepository;
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
