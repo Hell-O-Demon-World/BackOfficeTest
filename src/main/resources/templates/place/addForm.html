@@ -96,7 +96,7 @@
                 <label th:for="${#ids.next('roomType')}"
                        th:text="${room.description}" class="type-quantity">desk</label>
                 <input type="number" th:field="${place.roomQuantity}"
-                       class="type-quantity input" min="0" value=0>
+                       class="type-quantity input" min=0 value=0 th:value=0 required th:required="true">
             </div>
 
             <div class="imageFiles">
