@@ -3,6 +3,8 @@ package com.golfzonaca.backoffice.service.reservation;
 import com.golfzonaca.backoffice.domain.Place;
 import com.golfzonaca.backoffice.domain.Reservation;
 import com.golfzonaca.backoffice.domain.Room;
+import com.golfzonaca.backoffice.domain.type.FixStatus;
+import com.golfzonaca.backoffice.domain.type.ReservationStatus;
 import com.golfzonaca.backoffice.repository.reservation.ReservationRepository;
 import com.golfzonaca.backoffice.service.place.dto.ReservationDto;
 import com.golfzonaca.backoffice.web.controller.reservation.dto.ReservationSearchCond;
@@ -25,7 +27,9 @@ public class ReservationService {
 
     public void cancelReservation(Long reservationId) {
         Reservation findReservation = reservationRepository.findById(reservationId);
-        reservationRepository.delete(findReservation);
+        if (findReservation.getResStatus().equals(ReservationStatus.PROGRESSING) && findReservation.getFixStatus().equals(FixStatus.UNFIXED)) {
+            reservationRepository.delete(findReservation);
+        }
     }
 
     public List<Reservation> findByResStartTime(Long roomId, LocalDate date, LocalTime time) {
