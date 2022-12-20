@@ -50,7 +50,7 @@
         <div>
             <label for="placeDescription">공간설명</label>
             <input type="text" id="placeDescription" name="placeDescription" class="form-control" value="판교에 위치한 공간A입니다."
-                   th:value="${place.placeDescription}">
+                   th:value="${place.placeDescription}" th:maxlength="1000">
         </div>
         <div>
             <label for="postalCode">우편번호</label>
