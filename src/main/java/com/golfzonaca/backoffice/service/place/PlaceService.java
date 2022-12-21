@@ -163,7 +163,7 @@ public class PlaceService {
             throw new WrongAddressException("존재하지 않는 주소입니다.");
         }
         Map<String, Object> coordinateMap = elements.get(0);
-        Optional<Map<String, String>> optionalAddressMap = Optional.ofNullable((Map<String, String>) coordinateMap.get("roadAddressMap"));
+        Optional<Map<String, String>> optionalAddressMap = Optional.ofNullable((Map<String, String>) coordinateMap.get("road_address"));
         if (optionalAddressMap.isEmpty()) {
             coordinate.put("roadAddress", address);
             coordinate.put("longitude", (String) coordinateMap.get("x"));
